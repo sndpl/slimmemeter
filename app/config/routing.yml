@@ -1,0 +1,10 @@
+sm_site:
+    resource: "@SmSiteBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+sm_log:
+    resource: "@SmLogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
