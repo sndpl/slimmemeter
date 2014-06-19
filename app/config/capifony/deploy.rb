@@ -61,7 +61,7 @@ default_run_options[:pty] = true
 ssh_options[:keys] = ['~/.ssh/id_rsa1024']
 ssh_options[:forward_agent] = true
 set :webserver_user, "www-data"
-set :user, "root"
+set :user, "pi"
 set :keep_releases, 3
 
 
