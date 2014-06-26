@@ -3,6 +3,7 @@ namespace Sm\LogBundle\Command;
 
 use Sm\LogBundle\Parser\Parser;
 use Sm\LogBundle\Writer\Screen;
+use Sm\LogBundle\Writer\WriterFactory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,7 +52,8 @@ class FetchDataCommand extends ContainerAwareCommand
         pcntl_signal(SIGINT, $terminationHandler);
 
         $parser = new Parser();
-        $writer = new Screen($output);
+        $writerFactory = new WriterFactory();
+        $writer = $writerFactory->create($outputMode, $output);
 
         $simulateMode = $input->getOption('test');
         if (!$simulateMode) {
