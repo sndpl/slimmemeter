@@ -40,7 +40,7 @@ class Serial
      *
      * @return Serial
      */
-    public function __constructor()
+    public function __construct()
     {
         setlocale(LC_ALL, "en_US");
 
@@ -88,8 +88,10 @@ class Serial
     {
         if ($this->_dState !== SERIAL_DEVICE_OPENED) {
             if ($this->_os === "linux") {
-                if (preg_match("@^COM(\\d+):?$@i", $device, $matches)) {
+                if (preg_match("@^USB(\\d+):?$@i", $device, $matches)) {
                     $device = "/dev/ttyUSB" . ($matches[1] - 1);
+                } elseif (preg_match("@^COM(\\d+):?$@i", $device, $matches)) {
+                    $device = "/dev/ttyS" . ($matches[1] - 1);
                 }
 
                 if ($this->_exec("stty -F " . $device) === 0) {
@@ -99,6 +101,7 @@ class Serial
                     return true;
                 }
             } elseif ($this->_os === "osx") {
+                echo "SLIM - $device";
                 if ($this->_exec("stty -f " . $device) === 0) {
                     $this->_device = $device;
                     $this->_dState = SERIAL_DEVICE_SET;
