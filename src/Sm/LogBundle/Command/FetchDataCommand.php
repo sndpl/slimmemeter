@@ -2,7 +2,6 @@
 namespace Sm\LogBundle\Command;
 
 use Sm\LogBundle\Parser\Parser;
-use Sm\LogBundle\Writer\Screen;
 use Sm\LogBundle\Writer\WriterFactory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
