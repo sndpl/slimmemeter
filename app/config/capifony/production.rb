@@ -21,4 +21,4 @@ set :deploy_to,   "/var/www/slimmemeter"
 
 #
 # Set the branch that should be deployed
-set :branch,      "master"
+##set :branch,      "master"

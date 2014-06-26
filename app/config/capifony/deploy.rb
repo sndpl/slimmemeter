@@ -9,8 +9,13 @@ set :application,       "www.pleyte.org"
 #
 # Set the URL to your git repository.
 # Your server will need to be able to check out from here.
-set :scm,           :git
-set :repository,        "git@bitbucket.org:sndpl/pleyte-site.git"
+##set :scm,           :git
+##set :repository,        "git@bitbucket.org:sndpl/pleyte-site.git"
+# Or `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
+set :scm, :none
+set :repository, "."
+set :deploy_via, :copy
+set :copy_exclude, ["app/logs/*", "app/cache/*"]
 
 #
 # The settings above MUST be adjusted as they're specific to your project.
@@ -78,12 +83,10 @@ set :stage_dir,      "app/config/capifony"
 require 'capistrano/ext/multistage'
 
 set :dump_assetic_assets, true
-set :use_composer,        true
+##set :use_composer,        true
+set :use_composer,        false
 set :app_path,            "app"
 
 set  :keep_releases,      3
-
-set :scm,                 :git
-# Or `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
 load 'app/config/capifony/tasks.rb'

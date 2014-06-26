@@ -3,8 +3,3 @@ sm_site:
     type:     annotation
     prefix:   /
 
-sm_log:
-    resource: "@SmLogBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
