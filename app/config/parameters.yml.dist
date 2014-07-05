@@ -18,3 +18,12 @@ parameters:
     debug_redirects:        false
     use_assetic_controller: true
 
+    serial.device: COM1
+    serial.baud_rate: 115200
+    serial.parity: none
+    serial.character_length: 8
+    serial.stop_bits: 1
+    serial.flow_control: "xon/xoff"
+
+    weather.unit: c
+    weather.location: Amsterdam

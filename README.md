@@ -51,6 +51,7 @@ TODO
 * Change name of the project to something better
 * Create some parameters and config options
 * Add translations
+* Fork PHP Serial and contribute changes
 
 Licence
 -------

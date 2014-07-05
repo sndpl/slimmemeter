@@ -1,5 +1,7 @@
 {% extends '::base.html.twig' %}
-{% block header '<h1>Last received Telegram</h1>' %}
+{% block header %}
+    <h1>{{ 'last_telegram'|trans }}</h1>
+{% endblock %}
 {% block content %}
 
 <table class="table table-striped">

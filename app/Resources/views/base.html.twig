@@ -11,25 +11,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ path('sm_site_default_index') }}">SlimmeMeter</a>
+                <a class="navbar-brand" href="{{ path('sm_site_default_index') }}">{{ 'app_title'|trans }}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ path('sm_site_default_currentpower') }}">Current Power</a></li>
-                    <li><a href="{{ path('sm_site_default_currentpowerfase') }}">Current Power Fase</a></li>
+                    <li><a href="{{ path('sm_site_default_currentpower') }}">{{ 'menu.current_power'|trans }}</a></li>
+                    <li><a href="{{ path('sm_site_default_currentpowerfase') }}">{{ 'menu.current_power_fase'|trans }}</a></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Channels <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'menu.channels'|trans }} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ path('sm_site_default_channelone') }}">Channel One</a></li>
-                            <li><a href="{{ path('sm_site_default_channeltwo') }}">Channel Two</a></li>
-                            <li><a href="{{ path('sm_site_default_channelthree') }}">Channel Three</a></li>
-                            <li><a href="{{ path('sm_site_default_channelfour') }}">Channel Four</a></li>
+                            <li><a href="{{ path('sm_site_default_channelone') }}">{{ 'menu.channel_one'|trans }}</a></li>
+                            <li><a href="{{ path('sm_site_default_channeltwo') }}">{{ 'menu.channel_two'|trans }}</a></li>
+                            <li><a href="{{ path('sm_site_default_channelthree') }}">{{ 'menu.channel_three'|trans }}</a></li>
+                            <li><a href="{{ path('sm_site_default_channelfour') }}">{{ 'menu.channel_four'|trans }}</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ path('sm_site_default_lasttelegram') }}">Last Telegram</a></li>
+                    <li><a href="{{ path('sm_site_default_lasttelegram') }}">{{ 'menu.last_telegram'|trans }}</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -56,16 +56,16 @@
 
         function getWeather() {
             $.simpleWeather({
-                location: 'Vlissingen, Netherlands',
-                unit: 'c',
+                location: '{{ weather_location }}',
+                unit: '{{ weather_unit }}',
                 success: function(weather) {
                     small = weather.city + ' <img src="'+weather.thumbnail+'" title="'+weather.currently+'"/>'+weather.temp+'&deg;'+weather.units.temp;
                     html = '<h2>' + weather.city + ' <img src="'+weather.thumbnail+'" title="'+weather.currently+'"/>'+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-                    html += '<ul><li>Sunrise: '+weather.sunrise+'</li>';
-                    html += '<li>Sunset: '+weather.sunset+'</li></ul>';
+                    html += '<ul><li>{{ 'sunrise'|trans }}: '+weather.sunrise+'</li>';
+                    html += '<li>{{ 'sunset'|trans }}: '+weather.sunset+'</li></ul>';
 
-                    html += '<h4>Forecast:</h4><table class="table">'
-                    html += '<th>Day</th><th></th><th>High</th><th>Low</th>';
+                    html += '<h4>{{ 'forecast'|trans }}:</h4><table class="table">'
+                    html += '<th>{{ 'day'|trans }}</th><th></th><th>{{ 'high'|trans }}</th><th>{{ 'low'|trans }}</th>';
                     for(var i=0;i<weather.forecast.length;i++) {
                         html += '<tr><td>'+weather.forecast[i].day+'</td><td><img src="' + weather.forecast[i].thumbnail + '"/></td><td>'+weather.forecast[i].high+' ' +weather.units.temp + '</td><td>' +weather.forecast[i].low+' ' +weather.units.temp + '</td></tr>';
                     }

@@ -129,14 +129,22 @@ class FetchDataCommand extends ContainerAwareCommand
 
     protected function getSerialPort($logger)
     {
-        $serial = New Serial();
-        $serial->deviceSet("USB1");
+        $device = $this->getContainer()->getParameter('serial.device');
+        $baudRate = $this->getContainer()->getParameter('serial.baud_rate');
+        $parity = $this->getContainer()->getParameter('serial.parity');
+        $characterLength = $this->getContainer()->getParameter('serial.character_length');
+        $stopBits = $this->getContainer()->getParameter('serial.stopBits');
+        $flowCOntrol = $this->getContainer()->getParameter('serial.flowControl');
 
-        $serial->confBaudRate(115200);
-        $serial->confParity("none");
-        $serial->confCharacterLength(8);
-        $serial->confStopBits(1);
-        $serial->confFlowControl("xon/xoff");
+
+        $serial = New Serial();
+        $serial->deviceSet($device);
+
+        $serial->confBaudRate($baudRate);
+        $serial->confParity($parity);
+        $serial->confCharacterLength($characterLength);
+        $serial->confStopBits($stopBits);
+        $serial->confFlowControl($flowCOntrol);
 
         $serial->deviceOpen();
         $logger->info('Open Serial Device: ');

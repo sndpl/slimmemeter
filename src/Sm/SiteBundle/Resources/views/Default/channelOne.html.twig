@@ -1,5 +1,7 @@
 {% extends '::base.html.twig' %}
-{% block header '<h1>Channel One</h1>' %}
+{% block header %}
+    <h1>{{ 'channel_one'|trans }}</h1>
+{% endblock %}
 {% block content %}
     {% if installed %}
 <img class="img-responsive img-refresh" src="graph/channel_one_daily.png"/>

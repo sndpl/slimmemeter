@@ -1,5 +1,7 @@
 {% extends '::base.html.twig' %}
-{% block header '<h1>Current Fase Power</h1>' %}
+{% block header %}
+    <h1>{{ 'current_power_fase'|trans }}</h1>
+{% endblock %}
 {% block content %}
 <img class="img-responsive img-refresh" src="graph/current_power_fase_hourly.png"/>
     <br/>

@@ -1,0 +1,43 @@
+<?php
+
+return array(
+    'app_title' => 'Smart User',
+    'menu.current_power' => 'Current power',
+    'menu.current_power_fase' => 'Current power fase',
+    'menu.channels' => 'Channels',
+    'menu.channel_one' => 'Channel one',
+    'menu.channel_two' => 'Channel two',
+    'menu.channel_three' => 'Channel three',
+    'menu.channel_four' => 'Channel four',
+    'menu.last_telegram' => 'Last telegram',
+    'dashboard' => 'Dashboard',
+    'current_power' => 'Current power',
+    'current_power_fase' => 'Current power fase',
+    'channel_one' => 'Channel one',
+    'channel_two' => 'Channel two',
+    'channel_three' => 'Channel three',
+    'channel_four' => 'Channel four',
+    'last_telegram' => 'Last telegram',
+    'weather' => 'Weather',
+    'forecast' => 'Forecast',
+    'sunrise' => 'Sunrise',
+    'sunset' => 'Sunset',
+    'day' => 'Day',
+    'high' => 'High',
+    'low' => 'Low',
+    'hourly' => 'hourly',
+    'daily' => 'daily',
+    'weekly' => 'weekly',
+    'monthly' => 'monthly',
+    'yearly' => 'yearly',
+    'Sat' => 'Sat',
+    'Sun' => 'Sun',
+    'Mon' => 'Mon',
+    'Tue' => 'Tue',
+    'Wed' => 'Wed',
+    'Thu' => 'Thu',
+    'Fri' => 'Fri',
+    // Telegram
+
+
+);
