@@ -30,7 +30,7 @@ class Screen
             case 'KMP':
                 $this->output->writeln('Kamstrup');
                 break;
-            case 'ISK':
+            case 'ISk':
                 $this->output->writeln('IskraEmeco');
                 break;
             case 'XMX':
