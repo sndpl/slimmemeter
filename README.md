@@ -50,6 +50,7 @@ TODO
 * Write installation manual
 * Change name of the project to something better
 * Create some parameters and config options
+* Add translations
 
 Licence
 -------
