@@ -53,6 +53,7 @@ set :shared_files,      ["app/config/parameters.yml"]
 # The logs and the /web/uploads folder are shared by default.
 # Adjust the shared_children variable if you want to share additional folders
 # set :shared_children,   [log_path, web_path + "/uploads"]
+set :shared_children, ['data', 'web/graph']
 
 #
 # Get more verbose output - helpful when debugging

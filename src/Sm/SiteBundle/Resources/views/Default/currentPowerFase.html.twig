@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+{% block header '<h1>Current Fase Power</h1>' %}
+{% block content %}
+<img class="img-responsive img-refresh" src="graph/current_power_fase_hourly.png"/>
+    <br/>
+<img class="img-responsive img-refresh" src="graph/current_power_fase_daily.png"/>
+    <br/>
+<img class="img-responsive img-refresh" src="graph/current_power_fase_weekly.png"/>
+    <br/>
+<img class="img-responsive img-refresh" src="graph/current_power_fase_monthly.png"/>
+    <br/>
+<img class="img-responsive img-refresh" src="graph/current_power_fase_yearly.png"/>
+{% endblock %}

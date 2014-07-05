@@ -7,6 +7,7 @@ namespace Sm\LogBundle\Dto;
  */
 class Telegram
 {
+    public $complete = false;
     public $header;
     public $meter_supplier="";
     public $timestamp="";

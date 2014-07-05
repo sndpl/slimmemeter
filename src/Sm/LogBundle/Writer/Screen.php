@@ -6,12 +6,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Screen
 {
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
     protected $output;
 
+    /**
+     * @param OutputInterface $output
+     */
     public function __construct(OutputInterface $output) {
         $this->output = $output;
     }
 
+    /**
+     * @param Telegram $data
+     */
     public function write(Telegram $data)
     {
         //var_dump($data);
@@ -21,7 +30,7 @@ class Screen
             case 'KMP':
                 $this->output->writeln('Kamstrup');
                 break;
-            case 'ISk':
+            case 'ISK':
                 $this->output->writeln('IskraEmeco');
                 break;
             case 'XMX':
@@ -64,9 +73,9 @@ class Screen
         $this->output->writeln('41. 7. 0 - Current instantaneous active power (+P) in fase 2: ' . number_format($data->instantaneous_active_power_in_l2, 3) . ' ' . $data->unit_instantaneous_active_power_in_l2);
         $this->output->writeln('61. 7. 0 - Current instantaneous active power (+P) in fase 3: ' . number_format($data->instantaneous_active_power_in_l3, 3) . ' ' . $data->unit_instantaneous_active_power_in_l3);
 
-        $this->output->writeln('22. 7. 0 - Current instantaneous active power (-P) in fase 1: ' . number_format($data->instantaneous_active_power_out_l1, 3) . ' ' . $data->unit_instantaneous_active_power_out_l1);
-        $this->output->writeln('42. 7. 0 - Current instantaneous active power (-P) in fase 2: ' . number_format($data->instantaneous_active_power_out_l2, 3) . ' ' . $data->unit_instantaneous_active_power_out_l2);
-        $this->output->writeln('62. 7. 0 - Current instantaneous active power (-P) in fase 3: ' . number_format($data->instantaneous_active_power_out_l3, 3) . ' ' . $data->unit_instantaneous_active_power_out_l3);
+        $this->output->writeln('22. 7. 0 - Current instantaneous active power (-P) out fase 1: ' . number_format($data->instantaneous_active_power_out_l1, 3) . ' ' . $data->unit_instantaneous_active_power_out_l1);
+        $this->output->writeln('42. 7. 0 - Current instantaneous active power (-P) out fase 2: ' . number_format($data->instantaneous_active_power_out_l2, 3) . ' ' . $data->unit_instantaneous_active_power_out_l2);
+        $this->output->writeln('62. 7. 0 - Current instantaneous active power (-P) out fase 3: ' . number_format($data->instantaneous_active_power_out_l3, 3) . ' ' . $data->unit_instantaneous_active_power_out_l3);
 
         $this->output->writeln('96.13. 1 - Message code: ' . $data->message_code);
         $this->output->writeln('96.31. 0 - Message text: ' . $data->message_text);

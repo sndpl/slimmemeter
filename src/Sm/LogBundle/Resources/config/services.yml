@@ -1,0 +1,7 @@
+services:
+    kernel.listener.command_dispatch:
+        class: Sm\LogBundle\EventListener\ConsoleExceptionListener
+        arguments:
+            logger: "@logger"
+        tags:
+            - { name: kernel.event_listener, event: console.exception }

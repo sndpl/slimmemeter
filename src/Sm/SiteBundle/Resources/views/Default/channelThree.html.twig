@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% block header '<h1>Channel Three</h1>' %}
+{% block content %}
+    {% if installed %}
+    <img class="img-responsive img-refresh" src="graph/channel_three_daily.png"/>
+    <br/>
+    <img class="img-responsive img-refresh" src="graph/channel_three_weekly.png"/>
+    <br/>
+    <img class="img-responsive img-refresh" src="graph/channel_three_monthly.png"/>
+    <br/>
+    <img class="img-responsive img-refresh" src="graph/channel_three_yearly.png"/>
+    {% else %}
+        Not installed
+    {% endif %}
+{% endblock %}

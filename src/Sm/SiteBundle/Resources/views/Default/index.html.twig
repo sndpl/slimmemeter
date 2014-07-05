@@ -1,1 +1,33 @@
-Slimmemeter site
+{% extends '::base.html.twig' %}
+{% block header '<h1>Dashboard - <span id="weather-small"></span></h1>' %}
+{% block content %}
+
+    <h2>Current Power</h2>
+    <img class="img-responsive img-refresh" src="graph/current_power_hourly.png" id="current_power"/>
+
+    <h2>Current Fase Power</h2>
+    <img class="img-responsive img-refresh" src="graph/current_power_fase_hourly.png" id="current_power_fase"/>
+
+    {% if channel_one_installed %}
+    <h2>Channel one</h2>
+    <img class="img-responsive img-refresh" src="graph/channel_one_daily.png" id="channel_one"/>
+    {% endif %}
+
+    {% if channel_two_installed %}
+        <h2>Channel two</h2>
+        <img class="img-responsive img-refresh" src="graph/channel_two_daily.png" id="channel_two"/>
+    {% endif %}
+
+    {% if channel_three_installed %}
+        <h2>Channel three</h2>
+        <img class="img-responsive img-refresh" src="graph/channel_three_daily.png" id="channel_three"/>
+    {% endif %}
+
+    {% if channel_four_installed %}
+        <h2>Channel four</h2>
+        <img class="img-responsive img-refresh" src="graph/channel_four_daily.png" id="channel_four"/>
+    {% endif %}
+    <h2>Weather</h2>
+    <div id="weather"></div>
+{% endblock %}
+

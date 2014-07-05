@@ -2,21 +2,19 @@
 namespace Sm\LogBundle\Writer;
 
 use Psr\Log\LoggerInterface;
-use Sm\LogBundle\Dto\Telegram;
-use Sm\LogBundle\Writer\Rrd\CurrentPower;
-use Sm\LogBundle\Writer\Rrd\CurrentPowerFase;
-use Sm\LogBundle\Writer\Rrd\Channel;
+use Sm\LogBundle\Writer\Graph\CurrentPower;
+use Sm\LogBundle\Writer\Graph\CurrentPowerFase;
+use Sm\LogBundle\Writer\Graph\Channel;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Rrd
+class Graph
 {
-    protected $rddWriters = [];
+    protected $graphWriters = [];
 
     public function __construct(LoggerInterface $logger)
     {
         $this->registerWriter(new CurrentPower($logger));
         $this->registerWriter(new CurrentPowerFase($logger));
-
         $this->registerWriter(new Channel(1, $logger));
         $this->registerWriter(new Channel(2, $logger));
         $this->registerWriter(new Channel(3, $logger));
@@ -25,15 +23,15 @@ class Rrd
 
     protected function registerWriter($writer)
     {
-        $this->rddWriters[] = $writer;
+        $this->graphWriters[] = $writer;
     }
 
-    public function write(Telegram $telegram)
+    public function write()
     {
         /** @var CurrentPower $writer */
-        foreach($this->rddWriters as $writer)
+        foreach($this->graphWriters as $writer)
         {
-            $writer->updateDb($telegram);
+            $writer->updateGraph();
         }
     }
 }

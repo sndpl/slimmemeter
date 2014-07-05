@@ -1,6 +1,7 @@
 <?php
 namespace Sm\LogBundle\Command;
 
+use Sm\LogBundle\Dto\Telegram;
 use Sm\LogBundle\Parser\Parser;
 use Sm\LogBundle\Writer\WriterFactory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -24,12 +25,13 @@ class FetchDataCommand extends ContainerAwareCommand
             ->setDescription('Runs as a worker fetching data from the P1 port')
             ->addOption('logInterval', 'l', InputOption::VALUE_OPTIONAL, 'Log frequency in 10 second-units', 1)
             ->addOption('output', 'o', InputOption::VALUE_OPTIONAL, 'Output mode (rrd, screen)', 'rrd')
-            ->addOption('test', 't', InputOption::VALUE_NONE, 'Use test data (meter + gas meter)');
+            ->addOption('test', 't', InputOption::VALUE_NONE, 'Use test data (meter + gas meter)')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = $this->getContainer()->get('logger');
         $startTime = time();
 
         $maxRuntime = (integer) $input->getOption('max-runtime');
@@ -38,7 +40,6 @@ class FetchDataCommand extends ContainerAwareCommand
         }
 
         $outputMode = (string) $input->getOption('output');
-        $logInterval = (integer) $input->getOption('logInterval');
 
         // If we receive a request to shutdown cleanly (SIGTERM) or a more
         // immediate CTRL+C (SIGINT), then we wait until the end of the loop.
@@ -52,28 +53,40 @@ class FetchDataCommand extends ContainerAwareCommand
 
         $parser = new Parser();
         $writerFactory = new WriterFactory();
-        $writer = $writerFactory->create($outputMode, $output);
+        $writer = $writerFactory->create($outputMode, $output, $logger);
 
         $simulateMode = $input->getOption('test');
         if (!$simulateMode) {
-            $serial = $this->getSerialPort();
+            $serial = $this->getSerialPort($logger);
         }
 
         // Only allow running the jobs we set on the command line. This allows
         // us to group and throttle the workers for particular tasks.
+        $data = null;
+        $telegram = null;
         do {
-            $output->writeln('Fetch data - ' . date("H:i:s"));
-
             if ($simulateMode) {
                 $read = $this->getReadData();
-                $data = $parser->parse($read);
+                $data = $parser->parse($read, $data);
                 $writer->write($data);
                 sleep($this->deltaSleep(10));
             } else {
                 $read = $serial->readPort();
                 if (trim($read) != '') {
-                    $data = $parser->parse($read);
-                    $writer->write($data);
+                    $data .= $read;
+                    if ($this->isDataValid($data)) {
+                        $telegram = $parser->parse($read, $data);
+                    }
+                    $logger->info('data: ' . print_r($data, true));
+                    if ($telegram instanceof Telegram && $telegram->complete == true) {
+                        $logger->info('Send telegram to writer');
+                        $writer->write($telegram);
+                        $this->writeLastTelegram($telegram);
+                        $data = '';
+                        $telegram = null;
+                    } else {
+                        $logger->info('Got data, but telegram is not complete yet');
+                    }
                 }
                 sleep(1);
             }
@@ -87,10 +100,37 @@ class FetchDataCommand extends ContainerAwareCommand
         return 0;
     }
 
-    protected function getSerialPort()
+    /**
+     * Write last message to data dir
+     */
+    protected function writeLastTelegram(Telegram $telegram)
     {
-        $serial = new Serial();
-        $serial->deviceSet("COM1");
+        $dir = __DIR__ . '/../../../../../data/';
+
+        $fp = fopen($dir . 'lastTelegram', 'w+');
+        fwrite($fp, serialize($telegram));
+        fclose($fp);
+    }
+
+    /**
+     * Check if the data contains a / and !
+     * @todo use the CRC code for it!
+     *
+     * @param $data
+     * @return bool
+     */
+    protected function isDataValid($data)
+    {
+        if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function getSerialPort($logger)
+    {
+        $serial = New Serial();
+        $serial->deviceSet("USB1");
 
         $serial->confBaudRate(115200);
         $serial->confParity("none");
@@ -99,7 +139,7 @@ class FetchDataCommand extends ContainerAwareCommand
         $serial->confFlowControl("xon/xoff");
 
         $serial->deviceOpen();
-
+        $logger->info('Open Serial Device: ');
         return $serial;
     }
 
@@ -114,9 +154,11 @@ class FetchDataCommand extends ContainerAwareCommand
         $currentHour = intval(date('H')); # get current hour
         $value = $values[$currentHour];
         $powerValue = floatval(rand($value[1], $value[2]))/1000;
-        $currentPower = number_format($powerValue, 2);
+        $currentPowerIn = number_format($powerValue, 2);
+        $currentPowerOut = number_format($powerValue/10, 2);
         $tariffCode = $value[0]; # get tariffcode 0=High,1=Low
         $currentDate = date('ymdHis');
+        $channelDate = date('ymdHis', strtotime(date('Y-m-d') . ' ' . $currentHour . date('i:s')));
 
         $telegram = <<< MSG
 /XMX5LGBBFFB231096081
@@ -129,8 +171,8 @@ class FetchDataCommand extends ContainerAwareCommand
 1-0:1.8.2(000011.423*kWh)
 1-0:2.8.2(000000.000*kWh)
 0-0:96.14.0(000{$tariffCode})
-1-0:1.7.0({$currentPower}*kW)
-1-0:2.7.0(00.000*kW)
+1-0:1.7.0({$currentPowerIn}*kW)
+1-0:2.7.0({$currentPowerOut}*kW)
 0-0:17.0.0(999.9*kW)
 0-0:96.3.10(1)
 0-0:96.7.21(00006)
@@ -155,7 +197,7 @@ class FetchDataCommand extends ContainerAwareCommand
 1-0:62.7.0(00.000*kW)
 0-1:24.1.0(003)
 0-1:96.1.0(4730303136353631323037373133373134)
-0-1:24.2.1(140622160000S)(00003.800*m3)
+0-1:24.2.1({$channelDate}S)(00003.800*m3)
 0-1:24.4.0(1)
 !A79E
 MSG;

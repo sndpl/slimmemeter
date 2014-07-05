@@ -17,7 +17,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->parser = new \Sm\LogBundle\Parser\Parser();
     }
 
-    public function testParser()
+    public function ttestParser()
     {
         $telegram = $this->parser->parse($this->getData());
 
@@ -99,6 +99,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($telegram->channel2);
         $this->assertNull($telegram->channel3);
         $this->assertNull($telegram->channel4);
+    }
+
+    public function testCrc()
+    {
+        $data = $this->getFixture('telegram_with_gas_meter2.txt');
+        $telegram = $this->parser->parse($data);
+        $this->assertEquals('04F0', $telegram->crc);
+
     }
 
     protected function getData()
