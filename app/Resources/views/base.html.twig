@@ -17,8 +17,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ path('sm_site_default_currentpower') }}">{{ 'menu.current_power'|trans }}</a></li>
-                    <li><a href="{{ path('sm_site_default_currentpowerfase') }}">{{ 'menu.current_power_fase'|trans }}</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'menu.energy'|trans }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ path('sm_site_currentpower_index') }}">{{ 'menu.current_power'|trans }}</a></li>
+                            <li><a href="{{ path('sm_site_currentpower_costs') }}">{{ 'menu.current_power_costs'|trans }}</a></li>
+                            <li><a href="{{ path('sm_site_default_currentpowerfase') }}">{{ 'menu.current_power_fase'|trans }}</a></li>
+                        </ul>
+                    </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'menu.channels'|trans }} <span class="caret"></span></a>

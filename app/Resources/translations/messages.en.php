@@ -2,7 +2,9 @@
 
 return array(
     'app_title' => 'Smart User',
+    'menu.energy' => 'Energy',
     'menu.current_power' => 'Current power',
+    'menu.current_power_costs' => 'Current power costs',
     'menu.current_power_fase' => 'Current power fase',
     'menu.channels' => 'Channels',
     'menu.channel_one' => 'Channel one',

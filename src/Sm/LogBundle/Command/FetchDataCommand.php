@@ -105,9 +105,9 @@ class FetchDataCommand extends ContainerAwareCommand
      */
     protected function writeLastTelegram(Telegram $telegram)
     {
-        $dir = __DIR__ . '/../../../../../data/';
+        $dir = __DIR__ . '/../../../../data/';
 
-        $fp = fopen($dir . 'lastTelegram', 'w+');
+        $fp = fopen($dir . 'lastTelegram', 'w');
         fwrite($fp, serialize($telegram));
         fclose($fp);
     }

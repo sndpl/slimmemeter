@@ -25,14 +25,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/current-power")
-     * @Template
-     */
-    public function currentPowerAction()
-    {
-        return array();
-    }
-    /**
      * @Route("/current-power-fase")
      * @Template
      */
@@ -40,6 +32,7 @@ class DefaultController extends Controller
     {
         return array();
     }
+
     /**
      * @Route("/channel-one")
      * @Template

@@ -10,7 +10,7 @@ Requirements
 ------------
 SlimmeMeter requires the following:
 
-* PHP 5.1.x or higher
+* PHP 5.3.x or higher
 * PHP rrd extension
 * Apache webserver
 * Supervisor daemon
@@ -19,12 +19,13 @@ SlimmeMeter requires the following:
 Installation
 ------------
 
-Crontab
 ```
-* * * * * cd /var/www/slimmemeter/current && ./app/console log:export-graph -q
+git clone git@github.com:sndpl/slimmemeter.git
+composer install
 ```
+Update configuration settings in ./app/config/parameters.yml
 
-Supervisor (/etc/supervisor/conf.d/slimmemeter.conf)
+Create supervisor config (/etc/supervisor/conf.d/slimmemeter.conf)
 ```
 [program:fetch_data]
 environment=PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -43,13 +44,17 @@ stderr_logfile_maxbytes=1MB
 user=pi
 ```
 
+Set contrab for generating graphs:
+```
+* * * * * cd /var/www/slimmemeter/current && ./app/console log:export-graph -q
+```
+
 
 TODO
 ----
 * Clean some code
 * Write installation manual
 * Change name of the project to something better
-* Create some parameters and config options
 * Add translations
 * Fork PHP Serial and contribute changes
 

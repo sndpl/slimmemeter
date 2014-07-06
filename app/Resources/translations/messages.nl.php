@@ -2,7 +2,9 @@
 
 return array(
     'app_title' => 'Smart User',
-    'menu.current_power' => 'Huidige energie',
+    'menu.energy' => 'Energie',
+    'menu.current_power' => 'Huidige energie verbruik',
+    'menu.current_power_costs' => 'Huidige energie kosten',
     'menu.current_power_fase' => 'Huidige energie fase',
     'menu.channels' => 'Kanalen',
     'menu.channel_one' => 'Kanaal een',

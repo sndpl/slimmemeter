@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+{% block header %}
+    <h1>{{ 'current_power_costs'|trans }}</h1>
+{% endblock %}
+{% block content %}
+    Start: {{ start_date|date('d-m-Y') }}<br/>
+    End: {{ end_date|date('d-m-Y') }}<br/>
+    <table class="table table-striped">
+    <tr>
+        <th>{{ 'period'|trans }}</th>
+        <th>{{ 'powerin_t1'|trans }}</th>
+        <th>{{ 'costs_t1'|trans }}</th>
+        <th>{{ 'powerin_t2'|trans }}</th>
+        <th>{{ 'costs_t2'|trans }}</th>
+        <th>{{ 'powerout_t1'|trans }}</th>
+        <th>{{ 'income_t1'|trans }}</th>
+        <th>{{ 'powerout_t2'|trans }}</th>
+        <th>{{ 'income_t2'|trans }}</th>
+        <th>{{ 'total'|trans }}</th>
+    </tr>
+        {% for timestamp,row in data %}
+            <tr>
+                <td>{{ timestamp|date('d-m-Y') }}</td>
+                <td>
+                    {{ row.powerin_t1|number_format(4) }} kWh
+                </td>
+                <td>
+                    &euro; {{ row.powerin_t1_costs|number_format(4) }}
+                </td>
+                <td>
+                    {{ row.powerin_t2|number_format(4) }} kWh
+                </td>
+                <td>
+                    &euro; {{ row.powerin_t2_costs|number_format(4) }}
+                </td>
+                <td>
+                    {{ row.powerout_t1|number_format(4) }} kWh
+                </td>
+                <td>
+                    &euro; {{ row.powerout_t1_costs|number_format(4) }}
+                </td>
+                <td>
+                    {{ row.powerout_t2|number_format(4) }} kWh
+                </td>
+                <td>
+                    &euro; {{ row.powerout_t2_costs|number_format(4) }}
+                </td>
+                <td>
+                    &euro; {{ row.total_costs|number_format(4) }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
