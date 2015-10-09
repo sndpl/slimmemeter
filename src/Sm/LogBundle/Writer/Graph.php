@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Graph
 {
     protected $graphWriters = [];
+    protected $settings = [];
 
     public function __construct(LoggerInterface $logger)
     {
@@ -19,6 +20,11 @@ class Graph
         $this->registerWriter(new Channel(2, $logger));
         $this->registerWriter(new Channel(3, $logger));
         $this->registerWriter(new Channel(4, $logger));
+    }
+
+    public function setSettings($settings = [])
+    {
+        $this->settings = $settings;
     }
 
     protected function registerWriter($writer)
@@ -31,7 +37,7 @@ class Graph
         /** @var CurrentPower $writer */
         foreach($this->graphWriters as $writer)
         {
-            $writer->updateGraph();
+            $writer->updateGraph($this->settings);
         }
     }
 }

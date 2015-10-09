@@ -93,9 +93,10 @@ class Channel extends AbstractGraphWriter
     /**
      * @param string $start
      * @param string $name
+     * @param $settings
      * @return array
      */
-    protected function getGraphOptions($start = '-1h', $name = '')
+    protected function getGraphOptions($start = '-1h', $name = '', $settings)
     {
         if ($start == '-1h') {
             return false;
@@ -110,7 +111,7 @@ class Channel extends AbstractGraphWriter
         return [
             "--width", "800",
             "--height", "200",
-            "--vertical-label", $unit,
+            "--vertical-label", 'usage [' . $unit . ']',
             "--lower", "0.3",
             "--start", $start,
             "--title", "Channel 1 - {$typeDescription} {$name}",

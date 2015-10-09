@@ -21,8 +21,16 @@ class ExportGraphCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $logger = $this->getContainer()->get('logger');
+        $graphOptions = [
+            'gas_show_weather' => $this->getContainer()->getParameter('graph_options.gas.show_weather'),
+            'power_show_baseline' => $this->getContainer()->getParameter('graph_options.power.show_baseload'),
+            'power_contract_delivery' => $this->getContainer()->getParameter('contract.delivery'),
+            'power_contract_single_rate' => $this->getContainer()->getParameter('contract.single.rate'),
+            'power_contract_highlow_region' => $this->getContainer()->getParameter('contract.highlow.region')
+        ];
         $writerFactory = new WriterFactory();
         $writer = $writerFactory->create(WriterFactory::GRAPH, $output, $logger);
+        $writer->setSettings($graphOptions);
         $writer->write();
     }
 

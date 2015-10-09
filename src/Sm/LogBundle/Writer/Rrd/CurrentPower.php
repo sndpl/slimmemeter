@@ -50,7 +50,7 @@ class CurrentPower extends AbstractRrdWriter
      * @param $lastUpdate
      * @return array
      */
-    protected function getUpdateOptions(Telegram $telegram, $lastUpdate)
+    protected function getUpdateOptions($telegram, $lastUpdate)
     {
         $powerInT1 = 0;
         $powerInT2 = 0;

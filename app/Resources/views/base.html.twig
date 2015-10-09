@@ -1,5 +1,21 @@
-{% extends 'BootstrapBundle::base.html.twig' %}
-{% block title "SlimmeMeter" %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>{% block title %}SlimmeMeter{% endblock title %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    {% block head %}{% endblock %}
+
+</head>
+
+<body>
 {% block nav %}
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -41,52 +57,59 @@
         </div><!-- /.container-fluid -->
     </nav>
 {% endblock %}
+<div class="container">
+{% block header %}{% endblock header %}
 
+{% block content %}{% endblock content %}
+</div>
 {% block javascripts %}
-    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.0.2/jquery.simpleWeather.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
     <script>
 
-        function cacheBuster(url) {
-            return url.replace(/\?_cb=\d*/, "") + "?_cb=" + new Date().getTime().toString();
-        }
+        if ($('#weather').length > 0) {
+            function cacheBuster(url) {
+                return url.replace(/\?_cb=\d*/, "") + "?_cb=" + new Date().getTime().toString();
+            }
 
-        setInterval(function() {
-            $(".img-refresh").each(function() {
-                this.src = cacheBuster(this.src);
-            });
-        }, 60000);
-        getWeather(); //Get the initial weather.
-        setInterval(getWeather, 600000); //Update the weather every 10 minutes.
+            setInterval(function () {
+                $(".img-refresh").each(function () {
+                    this.src = cacheBuster(this.src);
+                });
+            }, 60000);
+            getWeather(); //Get the initial weather.
+            setInterval(getWeather, 600000); //Update the weather every 10 minutes.
 
-        function getWeather() {
-            $.simpleWeather({
-                location: '{{ weather_location }}',
-                unit: '{{ weather_unit }}',
-                success: function(weather) {
-                    small = weather.city + ' <img src="'+weather.thumbnail+'" title="'+weather.currently+'"/>'+weather.temp+'&deg;'+weather.units.temp;
-                    html = '<h2>' + weather.city + ' <img src="'+weather.thumbnail+'" title="'+weather.currently+'"/>'+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-                    html += '<ul><li>{{ 'sunrise'|trans }}: '+weather.sunrise+'</li>';
-                    html += '<li>{{ 'sunset'|trans }}: '+weather.sunset+'</li></ul>';
+            function getWeather() {
+                $.simpleWeather({
+                    location: '{{ weather_location }}',
+                    unit: '{{ weather_unit }}',
+                    success: function (weather) {
+                        small = weather.city + ' <img src="' + weather.thumbnail + '" title="' + weather.currently + '"/>' + weather.temp + ' &deg;' + weather.units.temp;
+                        html = '<h2>' + weather.city + ' <img src="' + weather.thumbnail + '" title="' + weather.currently + '"/>' + weather.temp + ' &deg;' + weather.units.temp + '</h2>';
+                        html += '<ul><li>{{ 'sunrise'|trans }}: ' + weather.sunrise + '</li>';
+                        html += '<li>{{ 'sunset'|trans }}: ' + weather.sunset + '</li></ul>';
 
-                    html += '<h4>{{ 'forecast'|trans }}:</h4><table class="table">'
-                    html += '<th>{{ 'day'|trans }}</th><th></th><th>{{ 'high'|trans }}</th><th>{{ 'low'|trans }}</th>';
-                    for(var i=0;i<weather.forecast.length;i++) {
-                        html += '<tr><td>'+weather.forecast[i].day+'</td><td><img src="' + weather.forecast[i].thumbnail + '"/></td><td>'+weather.forecast[i].high+' ' +weather.units.temp + '</td><td>' +weather.forecast[i].low+' ' +weather.units.temp + '</td></tr>';
+                        html += '<h4>{{ 'forecast'|trans }}:</h4><table class="table">'
+                        html += '<th>{{ 'day'|trans }}</th><th></th><th>{{ 'high'|trans }}</th><th>{{ 'low'|trans }}</th>';
+                        for (var i = 0; i < weather.forecast.length; i++) {
+                            html += '<tr><td>' + weather.forecast[i].day + '</td><td><img src="' + weather.forecast[i].thumbnail + '"/></td><td>' + weather.forecast[i].high + ' &deg;' + weather.units.temp + '</td><td>' + weather.forecast[i].low + ' &deg;' + weather.units.temp + '</td></tr>';
+                        }
+                        html += '</table>';
+                        var timestamp = moment(weather.updated);
+                        html += '<p><em>Weather updated ' + moment(timestamp).fromNow() + '</em></p>';
+
+                        console.log(weather);
+                        $("#weather").html(html);
+                        $("#weather-small").html(small);
+                    },
+                    error: function (error) {
+                        $("#weather").html('<p>' + error + '</p>');
                     }
-                    html += '</table>';
-                    var timestamp = moment(weather.updated);
-                    html += '<p><em>Weather updated '+moment(timestamp).fromNow()+'</em></p>';
-
-                    console.log(weather);
-                    $("#weather").html(html);
-                    $("#weather-small").html(small);
-                },
-                error: function(error) {
-                    $("#weather").html('<p>'+error+'</p>');
-                }
-            });
+                });
+            }
         }
 
 

@@ -64,7 +64,7 @@ class Channel extends AbstractRrdWriter
      * @param $lastUpdate
      * @return array
      */
-    protected function getUpdateOptions(Telegram $telegram, $lastUpdate)
+    protected function getUpdateOptions($telegram, $lastUpdate)
     {
         $lastUpdateTimestamp = 0;
         $lastMeterReading = 0;

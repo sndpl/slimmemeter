@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'app_title' => 'Smart User',
+    'app_title' => 'Smart Meter Data Manager',
     'menu.energy' => 'Energy',
     'menu.current_power' => 'Current power',
     'menu.current_power_costs' => 'Current power costs',

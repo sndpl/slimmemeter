@@ -58,6 +58,17 @@ TODO
 * Add translations
 * Fork PHP Serial and contribute changes
 
+TIPS
+----
+
+* Moving your rrd files to an other server
+Since the rrd 1.x data format is cpu and os specific you need to export them first to xml:
+```for i in `ls *.rrd`; do rrdtool dump $i > $i.xml; done```
+
+Then import them again on the other server:
+```for i in `ls *.xml`; do rrdtool restore $i `echo $i |sed s/.xml//g`; done```
+
+
 Licence
 -------
 SlimmeMeter is MIT licenced.

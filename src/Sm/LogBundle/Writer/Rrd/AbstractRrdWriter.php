@@ -16,7 +16,7 @@ abstract class AbstractRrdWriter
     protected $logger;
 
     abstract protected function getDbOptions();
-    abstract protected function getUpdateOptions(Telegram $telegram, $lastUpdate);
+    abstract protected function getUpdateOptions($data, $lastUpdate);
 
     /**
      * @return string
@@ -42,11 +42,11 @@ abstract class AbstractRrdWriter
      * @param Telegram $telegram
      * @throws \Exception
      */
-    public function updateDb(Telegram $telegram)
+    public function updateDb($data)
     {
         $filename = $this->getDbFilename();
         $lastUpdate = rrd_lastupdate($filename);
-        $options = $this->getUpdateOptions($telegram, $lastUpdate);
+        $options = $this->getUpdateOptions($data, $lastUpdate);
         if (!is_null($options)) {
             $this->logger->debug('Update Db - ' . $filename);
             rrd_update(

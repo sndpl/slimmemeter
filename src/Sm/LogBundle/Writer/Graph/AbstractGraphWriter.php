@@ -25,7 +25,7 @@ abstract class AbstractGraphWriter
     /**
      * @return mixed
      */
-    abstract protected function getGraphOptions();
+    abstract protected function getGraphOptions($start, $name, $settings);
 
     /**
      * @return string
@@ -50,13 +50,13 @@ abstract class AbstractGraphWriter
     /**
      * Update graphs
      */
-    public function updateGraph()
+    public function updateGraph($settings)
     {
         $graphs = ['hourly' => '-1h', 'daily' => '-1d', 'weekly' => '-1w', 'monthly' => '-1m', 'yearly' => '-1y'];
 
         foreach ($graphs as $name => $start) {
             $filename = $this->getGraphFilename($name);
-            $options = $this->getGraphOptions($start, $name);
+            $options = $this->getGraphOptions($start, $name, $settings);
             if ($options !== false) {
                 $this->logger->debug('Create Graph - ' . $filename);
                 rrd_graph(

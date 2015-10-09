@@ -15,12 +15,15 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $telegram = $this->getLastTelegram();
+        $openWeatherMap =$this->get('endroid.openweathermap.client');
+        $weather = $openWeatherMap->query('weather', array('q' => 'Vlissingen,nl', 'lang' => 'nl'));
+
+        $telegramService = $this->get('sm.site.telegram');
+        $telegram = $telegramService->getLastTelegram();
+
         return array(
-            'channel_one_installed' => is_null($telegram->channel1)?false:true,
-            'channel_two_installed' => is_null($telegram->channel2)?false:true,
-            'channel_three_installed' => is_null($telegram->channel3)?false:true,
-            'channel_four_installed' => is_null($telegram->channel4)?false:true,
+            'telegram' => $telegram,
+            'weather' => $weather,
         );
     }
 

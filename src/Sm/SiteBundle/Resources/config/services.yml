@@ -1,0 +1,4 @@
+services:
+    sm.site.telegram:
+        class: Sm\SiteBundle\Service\TelegramService
+        arguments: ['%kernel.root_dir%']

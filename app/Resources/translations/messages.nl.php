@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'app_title' => 'Smart User',
+    'app_title' => 'Smart Meter Data Manager',
     'menu.energy' => 'Energie',
     'menu.current_power' => 'Huidige energie verbruik',
     'menu.current_power_costs' => 'Huidige energie kosten',
@@ -13,6 +13,7 @@ return array(
     'menu.channel_four' => 'Kanaal vier',
     'menu.last_telegram' => 'Laaste telegram',
     'dashboard' => 'Dashboard',
+    'current_usage' => 'Huidige verbruik',
     'current_power' => 'Huidige energie',
     'current_power_fase' => 'Huidige energie fase',
     'channel_one' => 'Kanaal een',
@@ -39,6 +40,4 @@ return array(
     'Wed' => 'Wo',
     'Thu' => 'Do',
     'Fri' => 'Vr',
-
-
 );

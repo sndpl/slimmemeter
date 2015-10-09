@@ -34,7 +34,7 @@ class CurrentPowerFase extends AbstractRrdWriter
      * @param $lastUpdate
      * @return array
      */
-    protected function getUpdateOptions(Telegram $telegram, $lastUpdate)
+    protected function getUpdateOptions($telegram, $lastUpdate)
     {
         $this->logger->debug('Add Current Power Fase data:');
         return [

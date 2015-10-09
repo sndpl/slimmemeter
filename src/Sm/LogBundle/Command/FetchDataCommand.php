@@ -133,9 +133,8 @@ class FetchDataCommand extends ContainerAwareCommand
         $baudRate = $this->getContainer()->getParameter('serial.baud_rate');
         $parity = $this->getContainer()->getParameter('serial.parity');
         $characterLength = $this->getContainer()->getParameter('serial.character_length');
-        $stopBits = $this->getContainer()->getParameter('serial.stopBits');
-        $flowCOntrol = $this->getContainer()->getParameter('serial.flowControl');
-
+        $stopBits = $this->getContainer()->getParameter('serial.stop_bits');
+        $flowControl = $this->getContainer()->getParameter('serial.flow_control');
 
         $serial = New Serial();
         $serial->deviceSet($device);
@@ -144,7 +143,7 @@ class FetchDataCommand extends ContainerAwareCommand
         $serial->confParity($parity);
         $serial->confCharacterLength($characterLength);
         $serial->confStopBits($stopBits);
-        $serial->confFlowControl($flowCOntrol);
+        $serial->confFlowControl($flowControl);
 
         $serial->deviceOpen();
         $logger->info('Open Serial Device: ');

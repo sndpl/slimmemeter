@@ -25,5 +25,23 @@ parameters:
     serial.stop_bits: 1
     serial.flow_control: "xon/xoff"
 
+    costs.energy_t1: 0.2069
+    costs.energy_t2: 0.2266
+    costs.gas: 0.6609
+
     weather.unit: c
     weather.location: Amsterdam
+
+    openweather_api_key: ~
+    openweather_location: 'Amsterdam, nl'
+
+    contract.delivery: false
+    contract.price.power.high: 0.2266
+    contract.price.power.low: 0.2069
+    contract.price.power.single: ~
+    contract.price.gas: 0.6609
+    contract.single.rate: false
+    contract.highlow.region: 1
+
+    graph_options.gas.show_weather: true
+    graph_options.power.show_baseload: true
