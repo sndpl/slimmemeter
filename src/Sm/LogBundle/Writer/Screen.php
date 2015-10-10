@@ -1,6 +1,7 @@
 <?php
 namespace Sm\LogBundle\Writer;
 
+use Sm\LogBundle\Dto\ReadingValue;
 use Sm\LogBundle\Dto\Telegram;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -45,14 +46,14 @@ class Screen
         $this->output->writeln('Meter information: ' . $data->getHeader());
         $this->output->writeln(' 0. 2. 8 - DSMR versie: ' . $data->getDsmrVersion());
         $this->output->writeln('96. 1. 1 - Meter number electricity: ' . $data->getEquipmentId());
-        $this->output->writeln(' 1. 8. 1 - Meter reading electricity in (T1): ' . number_format($data->getMeterreadingIn1()->getMeterReading(), 3) . ' ' . $data->getMeterreadingIn1()->getUnit());
-        $this->output->writeln(' 1. 8. 2 - Meter reading electricity in (T2): ' . number_format($data->getMeterreadingIn2()->getMeterReading(), 3) . ' ' . $data->getMeterreadingIn2()->getUnit());
-        $this->output->writeln(' 2. 8. 1 - Meter reading electricity out (T1): ' . number_format($data->getMeterreadingOut1()->getMeterReading(), 3) . ' ' . $data->getMeterreadingOut1()->getUnit());
-        $this->output->writeln(' 2. 8. 2 - Meter reading electricity out (T2): ' . number_format($data->getMeterreadingOut2()->getMeterReading(), 3) . ' ' . $data->getMeterreadingOut2()->getUnit());
+        $this->output->writeln(' 1. 8. 1 - Meter reading electricity in (T1): ' . $this->getReadingValue($data->getMeterreadingIn1()));
+        $this->output->writeln(' 1. 8. 2 - Meter reading electricity in (T2): ' . $this->getReadingValue($data->getMeterreadingIn2()));
+        $this->output->writeln(' 2. 8. 1 - Meter reading electricity out (T1): ' . $this->getReadingValue($data->getMeterreadingOut1()));
+        $this->output->writeln(' 2. 8. 2 - Meter reading electricity out (T2): ' . $this->getReadingValue($data->getMeterreadingOut2()));
         $this->output->writeln('96.14. 0 - Current trariff: ' . $data->getCurrentTariff());
-        $this->output->writeln(' 1. 7. 0 - Current power in (+P): ' . number_format($data->getCurrentPowerIn()->getMeterReading(), 3) . ' ' . $data->getCurrentPowerIn()->getUnit());
-        $this->output->writeln(' 2. 7. 0 - Current power out (-P): ' . number_format($data->getCurrentPowerOut()->getMeterReading(), 3) . ' ' . $data->getCurrentPowerOut()->getUnit());
-        $this->output->writeln('17. 0. 0 - Current threshold: ' . number_format($data->getCurrentTreshold()->getMeterReading(), 3) . ' ' . $data->getCurrentTreshold()->getUnit());
+        $this->output->writeln(' 1. 7. 0 - Current power in (+P): ' . $this->getReadingValue($data->getCurrentPowerIn()));
+        $this->output->writeln(' 2. 7. 0 - Current power out (-P): ' . $this->getReadingValue($data->getCurrentPowerOut()));
+        $this->output->writeln('17. 0. 0 - Current threshold: ' . $this->getReadingValue($data->getCurrentTreshold()));
         $this->output->writeln('96. 3.10 - Switch position: ' . $data->getCurrentSwitchPosition());
         $this->output->writeln('96. 7.21 - Number of powerfailures: ' . $data->getPowerFailures());
         $this->output->writeln('96. 7. 9 - Number of long powerfailures: ' . $data->getLongPowerFailures());
@@ -64,17 +65,17 @@ class Screen
         $this->output->writeln('32.36. 0 - Short voltage swells in fase 1: ' . $data->getVoltageSwellsL1());
         $this->output->writeln('52.36. 0 - Short voltage swells in fase 2: ' . $data->getVoltageSwellsL2());
         $this->output->writeln('72.36. 0 - Short voltage swells in fase 3: ' . $data->getVoltageSwellsL3());
-        $this->output->writeln('31. 7. 0 - Current instantaneous in fase 1: ' . number_format($data->getInstantaneousCurrentL1()->getMeterReading(), 3) . ' ' . $data->getInstantaneousCurrentL1()->getUnit());
-        $this->output->writeln('51. 7. 0 - Current instantaneous in fase 2: ' . number_format($data->getInstantaneousCurrentL2()->getMeterReading(), 3) . ' ' . $data->getInstantaneousCurrentL2()->getUnit());
-        $this->output->writeln('71. 7. 0 - Current instantaneous in fase 3: ' . number_format($data->getInstantaneousCurrentL3()->getMeterReading(), 3) . ' ' . $data->getInstantaneousCurrentL3()->getUnit());
+        $this->output->writeln('31. 7. 0 - Current instantaneous in fase 1: ' . $this->getReadingValue($data->getInstantaneousCurrentL1()));
+        $this->output->writeln('51. 7. 0 - Current instantaneous in fase 2: ' . $this->getReadingValue($data->getInstantaneousCurrentL2()));
+        $this->output->writeln('71. 7. 0 - Current instantaneous in fase 3: ' . $this->getReadingValue($data->getInstantaneousCurrentL3()));
 
-        $this->output->writeln('21. 7. 0 - Current instantaneous active power (+P) in fase 1: ' . number_format($data->getInstantaneousActivePowerInL1()->getMeterReading(), 3) . ' ' . $data->getInstantaneousActivePowerInL1()->getUnit());
-        $this->output->writeln('41. 7. 0 - Current instantaneous active power (+P) in fase 2: ' . number_format($data->getInstantaneousActivePowerInL2()->getMeterReading(), 3) . ' ' . $data->getInstantaneousActivePowerInL2()->getUnit());
-        $this->output->writeln('61. 7. 0 - Current instantaneous active power (+P) in fase 3: ' . number_format($data->getInstantaneousActivePowerInL3()->getMeterReading(), 3) . ' ' . $data->getInstantaneousActivePowerInL3()->getUnit());
+        $this->output->writeln('21. 7. 0 - Current instantaneous active power (+P) in fase 1: ' . $this->getReadingValue($data->getInstantaneousActivePowerInL1()));
+        $this->output->writeln('41. 7. 0 - Current instantaneous active power (+P) in fase 2: ' . $this->getReadingValue($data->getInstantaneousActivePowerInL2()));
+        $this->output->writeln('61. 7. 0 - Current instantaneous active power (+P) in fase 3: ' . $this->getReadingValue($data->getInstantaneousActivePowerInL3()));
 
-        $this->output->writeln('22. 7. 0 - Current instantaneous active power (-P) out fase 1: ' . number_format($data->getInstantaneousActivePowerOutL1()->getMeterReading(), 3) . ' ' . $data->getInstantaneousActivePowerOutL1()->getUnit());
-        $this->output->writeln('42. 7. 0 - Current instantaneous active power (-P) out fase 2: ' . number_format($data->getInstantaneousActivePowerOutL2()->getMeterReading(), 3) . ' ' . $data->getInstantaneousActivePowerOutL2()->getUnit());
-        $this->output->writeln('62. 7. 0 - Current instantaneous active power (-P) out fase 3: ' . number_format($data->getInstantaneousActivePowerOutL3()->getMeterReading(), 3) . ' ' . $data->getInstantaneousActivePowerOutL3()->getUnit());
+        $this->output->writeln('22. 7. 0 - Current instantaneous active power (-P) out fase 1: ' . $this->getReadingValue($data->getInstantaneousActivePowerOutL1()));
+        $this->output->writeln('42. 7. 0 - Current instantaneous active power (-P) out fase 2: ' . $this->getReadingValue($data->getInstantaneousActivePowerOutL2()));
+        $this->output->writeln('62. 7. 0 - Current instantaneous active power (-P) out fase 3: ' . $this->getReadingValue($data->getInstantaneousActivePowerOutL3()));
 
         $this->output->writeln('96.13. 1 - Message code: ' . $data->getMessageCode());
         $this->output->writeln('96.31. 0 - Message text: ' . $data->getMessageText());
@@ -91,15 +92,26 @@ class Screen
                 $this->output->writeln('91. 1. 0 - Meter number: ' . $channelData->getEquipmentId());
                 if ($data->getDsmrVersion() != '40') {
                     $this->output->writeln('24. 3. 0 - Timestamp reading: ' . $channelData->getTimestamp()->format('Y-m-d H:i:s'));
-                    $this->output->writeln('24. 3. 0 - Meter reading: ' . number_format($channelData->getReadingValue()->getMeterReading(),3) . ' ' . $channelData->getReadingValue()->getUnit());
+                    $this->output->writeln('24. 3. 0 - Meter reading: ' . $this->getReadingValue($channelData->getReadingValue()));
                 } else {
                     $this->output->writeln('24. 2. 1 - Timestamp reading: ' . $channelData->getTimestamp()->format('Y-m-d H:i:s'));
-                    $this->output->writeln('24. 2. 1 - Meter reading: ' . number_format($channelData->getReadingValue()->getMeterReading(),3) . ' ' . $channelData->getReadingValue()->getUnit());
+                    $this->output->writeln('24. 2. 1 - Meter reading: ' . $this->getReadingValue($channelData->getReadingValue()));
                 }
                 $this->output->writeln('24. 4. 0 - Actual valve position: ' . $channelData->getValvePosition());
             }
         }
+    }
 
-
+    /**
+     * @param ReadingValue $readingValue
+     *
+     * @return string
+     */
+    protected function getReadingValue($readingValue)
+    {
+        if (!$readingValue instanceof ReadingValue) {
+            return '-';
+        }
+        return number_format($readingValue->getMeterReading(), 3) . ' ' . $readingValue->getUnit();
     }
 }
