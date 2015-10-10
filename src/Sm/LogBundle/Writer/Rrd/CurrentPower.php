@@ -59,12 +59,12 @@ class CurrentPower extends AbstractRrdWriter
 
         if (intval($telegram->getCurrentTariff()) == 2) {
             // Normal
-            $powerInT2 = $telegram->getCurrentPowerIn()*1000;
-            $powerOutT2 = $telegram->getCurrentPowerOut()*1000;
+            $powerInT2 = $telegram->getCurrentPowerIn()->getMeterReading()*1000;
+            $powerOutT2 = $telegram->getCurrentPowerOut()->getMeterReading()*1000;
         } else {
             // Low
-            $powerInT1 = $telegram->getCurrentPowerIn()*1000;
-            $powerOutT1 = $telegram->getCurrentPowerOut()*1000;
+            $powerInT1 = $telegram->getCurrentPowerIn()->getMeterReading()*1000;
+            $powerOutT1 = $telegram->getCurrentPowerOut()->getMeterReading()*1000;
         }
         $this->logger->debug('Add Current Power data: In T1: ' . $powerInT1 . 'W | In T2: ' . $powerInT2 . 'W | Out T1 ' .$powerOutT1 . 'W | Out T2' . $powerOutT2 .'W' );
 
