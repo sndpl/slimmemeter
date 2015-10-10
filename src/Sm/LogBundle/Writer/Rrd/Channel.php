@@ -73,21 +73,20 @@ class Channel extends AbstractRrdWriter
             $lastMeterReading = $lastUpdate['data'][0];
         }
 
-        $channel = 'channel' . $this->channelId;
-        $channelData = $telegram->$channel;
+        $channelData = $telegram->getChannel($this->channelId);
         $this->channelData = $channelData;
 
-        if (is_null($this->channelData) || ($channelData->timestamp->format('U') - $lastUpdateTimestamp) < 61) {
+        if (is_null($this->channelData) || ($channelData->getTimestamp()->format('U') - $lastUpdateTimestamp) < 61) {
             $this->logger->debug('Channel ' . $this->channelId . ': No data to add');
             return null;
         }
 
-        $consuming = $channelData->meterReading - $lastMeterReading;
-        $this->logger->debug('Add Channel ' . $this->channelId . ' data: MeterReading: ' . $channelData->meterReading . $channelData->unit . ' | Consuming: ' . $consuming . $channelData->unit);
+        $consuming = $channelData->getReadingValue()->getMeterReading() - $lastMeterReading;
+        $this->logger->debug('Add Channel ' . $this->channelId . ' data: MeterReading: ' . $channelData->getReadingValue()->getMeterReading() . $channelData->getReadingValue()->getUnit() . ' | Consuming: ' . $consuming . $channelData->getReadingValue()->getUnit());
 
         return [
-            $channelData->timestamp->format('U') . ':' .
-            $channelData->meterReading . ':' .
+            $channelData->getTimestamp()->format('U') . ':' .
+            $channelData->getReadingValue()->getMeterReading() . ':' .
             $consuming
         ];
     }

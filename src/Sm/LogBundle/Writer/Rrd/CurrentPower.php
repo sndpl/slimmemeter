@@ -19,7 +19,7 @@ class CurrentPower extends AbstractRrdWriter
      * GAUGE = the data entered is absolute and should be entered as is without any manipulation or calculations done to it
      * 60 = Heartbeat timeout If data is not entered in at least 60 seconds then zeros are put into this DS record
      * 0 = the minimum value that will be accepted into the data base
-     * 1 = the maximul value that will be accepted
+     * 1 = the maximal value that will be accepted
      *
      * RRA = RRA directive defines how many values the the RRD database will archive and for how long
      * AVERAGE = the average of the data points is stored.
@@ -57,19 +57,19 @@ class CurrentPower extends AbstractRrdWriter
         $powerOutT1 = 0;
         $powerOutT2 = 0;
 
-        if (intval($telegram->current_tariff) == 2) {
+        if (intval($telegram->getCurrentTariff()) == 2) {
             // Normal
-            $powerInT2 = $telegram->current_power_in*1000;
-            $powerOutT2 = $telegram->current_power_out*1000;
+            $powerInT2 = $telegram->getCurrentPowerIn()*1000;
+            $powerOutT2 = $telegram->getCurrentPowerOut()*1000;
         } else {
             // Low
-            $powerInT1 = $telegram->current_power_in*1000;
-            $powerOutT1 = $telegram->current_power_out*1000;
+            $powerInT1 = $telegram->getCurrentPowerIn()*1000;
+            $powerOutT1 = $telegram->getCurrentPowerOut()*1000;
         }
         $this->logger->debug('Add Current Power data: In T1: ' . $powerInT1 . 'W | In T2: ' . $powerInT2 . 'W | Out T1 ' .$powerOutT1 . 'W | Out T2' . $powerOutT2 .'W' );
 
         return [
-            $telegram->timestamp->format('U') . ':' .
+            $telegram->getTimestamp()->format('U') . ':' .
             $powerInT1 . ':' .
             $powerInT2 . ':' .
             $powerOutT1 . ':' .

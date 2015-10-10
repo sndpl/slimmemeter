@@ -47,8 +47,7 @@ class Channel extends AbstractGraphWriter
             throw new \Exception('No channel database found: ' . $this->dbFilename);
         }
         $lastTelegram = $this->getLastTelegram();
-        $channel = 'channel' . $channelId;
-        $this->channelData = $lastTelegram->$channel;
+        $this->channelData = $lastTelegram->getChannel($channelId);
     }
 
     /**
@@ -104,8 +103,8 @@ class Channel extends AbstractGraphWriter
         $unit = '';
         $typeDescription = 'not installed';
         if (!is_null($this->channelData)) {
-            $unit = $this->channelData->unit;
-            $typeDescription = $this->channelData->typeDescription;
+            $unit = $this->channelData->getReadingValue()->getUnit();
+            $typeDescription = $this->channelData->getTypeDescription();
         }
         $currentDate = date('d-m-Y H:i:s');
         return [

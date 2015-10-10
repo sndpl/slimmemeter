@@ -75,17 +75,17 @@ class FetchDataCommand extends ContainerAwareCommand
                 $read = $serial->readPort();
                 if (trim($read) != '') {
                     $data .= $read;
+                    $logger->info('Received data: ' . $data);
                     if ($this->isDataValid($data)) {
                         $telegram = $parser->parse($read, $data);
                     }
-                    $logger->info('data: ' . print_r($data, true));
-                    if ($telegram instanceof Telegram && $telegram->complete == true) {
+                    if ($telegram instanceof Telegram && $telegram->isComplete()) {
                         $logger->info('Send telegram to writer');
                         $writer->write($telegram);
                         $this->writeLastTelegram($telegram);
                         $data = '';
                         $telegram = null;
-                    } else {
+                    } elseif (strlen($data)) {
                         $logger->info('Got data, but telegram is not complete yet');
                     }
                 }
@@ -120,7 +120,7 @@ class FetchDataCommand extends ContainerAwareCommand
      * @param $data
      * @return bool
      */
-    protected function isDataValid($data)
+    protected function isDataValid(&$data)
     {
         $logger = $this->getContainer()->get('logger');
         if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
@@ -131,7 +131,12 @@ class FetchDataCommand extends ContainerAwareCommand
                 $crcData = str_replace("\n", "\r\n", substr($data, 0, strlen(trim($data))-4));
                 $crcHash = strtoupper(dechex(Crc16::hash($crcData)));
                 $logger->info('Telegram has CRC: ' . $hash . ' | Calculated hash: ' . $crcHash);
-                return $crcHash === $hash;
+                if ($crcHash === $hash) {
+                    return true;
+                } else {
+                    $data = '';
+                    return false;
+                }
             }
 
             return true;

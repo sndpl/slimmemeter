@@ -17,95 +17,97 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->parser = new \Sm\LogBundle\Parser\Parser();
     }
 
-    public function ttestParser()
+    public function testParser()
     {
         $telegram = $this->parser->parse($this->getData());
 
-        $this->assertEquals('XMX', $telegram->meter_supplier);
-        $this->assertEquals('XMX5LGBBFFB231096081', $telegram->header);
-        $this->assertEquals(40, $telegram->dsmr_version);
-        $this->assertEquals('140622161029', $telegram->timestamp->format('ymdHis'));
-        $this->assertEquals('4530303035303031353538323031323134', $telegram->equipment_id);
+        $this->assertEquals('XMX', $telegram->getMeterSupplier());
+        $this->assertEquals('XMX5LGBBFFB231096081', $telegram->getHeader());
 
-        $this->assertEquals(000037.466, $telegram->meterreading_in_1);
-        $this->assertEquals('kWh', $telegram->unit_meterreading_in_1);
-        $this->assertEquals(000011.423, $telegram->meterreading_in_2);
-        $this->assertEquals('kWh', $telegram->unit_meterreading_in_2);
+        $this->assertEquals(40, $telegram->getDsmrVersion());
+        $this->assertEquals('140622161029', $telegram->getTimestamp()->format('ymdHis'));
+        $this->assertEquals('4530303035303031353538323031323134', $telegram->getEquipmentId());
 
-        $this->assertEquals(000000.047, $telegram->meterreading_out_1);
-        $this->assertEquals('kWh', $telegram->unit_meterreading_out_1);
-        $this->assertEquals(000000.000, $telegram->meterreading_out_2);
-        $this->assertEquals('kWh', $telegram->unit_meterreading_out_2);
 
-        $this->assertEquals(1, $telegram->current_tariff);
-        $this->assertEquals(00.407, $telegram->current_power_in);
-        $this->assertEquals('kW', $telegram->unit_current_power_in);
-        $this->assertEquals(00.000, $telegram->current_power_out);
-        $this->assertEquals('kW', $telegram->unit_current_power_out);
-        $this->assertEquals(999.9, $telegram->current_treshold);
-        $this->assertEquals('kW', $telegram->unit_current_treshold);
-        $this->assertEquals(1, $telegram->current_switch_position);
+        $this->assertEquals(000037.466, $telegram->getMeterreadingIn1()->getMeterReading());
+        $this->assertEquals('kWh', $telegram->getMeterreadingIn1()->getUnit());
+        $this->assertEquals(000011.423, $telegram->getMeterreadingIn2()->getMeterReading());
+        $this->assertEquals('kWh', $telegram->getMeterreadingIn2()->getUnit());
 
-        $this->assertEquals(6, $telegram->powerfailures);
-        $this->assertEquals(0, $telegram->long_powerfailures);
-        $this->assertEquals('', $telegram->long_powerfailures_log);
+        $this->assertEquals(000000.047, $telegram->getMeterreadingOut1()->getMeterReading());
+        $this->assertEquals('kWh', $telegram->getMeterreadingOut1()->getUnit());
+        $this->assertEquals(000000.000, $telegram->getMeterreadingOut2()->getMeterReading());
+        $this->assertEquals('kWh', $telegram->getMeterreadingOut2()->getUnit());
 
-        $this->assertEquals(1, $telegram->voltage_sags_l1);
-        $this->assertEquals(0, $telegram->voltage_sags_l2);
-        $this->assertEquals(0, $telegram->voltage_sags_l3);
+        $this->assertEquals(1, $telegram->getCurrentTariff());
+        $this->assertEquals(00.407, $telegram->getCurrentPowerIn()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getCurrentPowerIn()->getUnit());
+        $this->assertEquals(00.000, $telegram->getCurrentPowerOut()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getCurrentPowerOut()->getUnit());
+        $this->assertEquals(999.9, $telegram->getCurrentTreshold()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getCurrentTreshold()->getUnit());
+        $this->assertEquals(1, $telegram->getCurrentSwitchPosition());
 
-        $this->assertEquals(0, $telegram->voltage_swells_l1);
-        $this->assertEquals(0, $telegram->voltage_swells_l2);
-        $this->assertEquals(0, $telegram->voltage_swells_l3);
+        $this->assertEquals(6, $telegram->getPowerFailures());
+        $this->assertEquals(0, $telegram->getLongPowerFailures());
+        $this->assertEquals('', $telegram->getLongPowerFailuresLog());
 
-        $this->assertEquals(0, $telegram->instantaneous_current_l1);
-        $this->assertEquals('A', $telegram->unit_instantaneous_current_l1);
-        $this->assertEquals(3, $telegram->instantaneous_current_l2);
-        $this->assertEquals('A', $telegram->unit_instantaneous_current_l2);
-        $this->assertEquals(1, $telegram->instantaneous_current_l3);
-        $this->assertEquals('A', $telegram->unit_instantaneous_current_l3);
+        $this->assertEquals(1, $telegram->getVoltageSagsL1());
+        $this->assertEquals(0, $telegram->getVoltageSagsL2());
+        $this->assertEquals(0, $telegram->getVoltageSagsL3());
 
-        $this->assertEquals(0.040, $telegram->instantaneous_active_power_in_l1);
-        $this->assertEquals('kW', $telegram->unit_instantaneous_active_power_in_l1);
-        $this->assertEquals(0.217, $telegram->instantaneous_active_power_in_l2);
-        $this->assertEquals('kW', $telegram->unit_instantaneous_active_power_in_l2);
-        $this->assertEquals(0.149, $telegram->instantaneous_active_power_in_l3);
-        $this->assertEquals('kW', $telegram->unit_instantaneous_active_power_in_l3);
+        $this->assertEquals(0, $telegram->getVoltageSwellsL1());
+        $this->assertEquals(0, $telegram->getVoltageSwellsL2());
+        $this->assertEquals(0, $telegram->getVoltageSwellsL3());
 
-        $this->assertEquals(0.0, $telegram->instantaneous_active_power_out_l1);
-        $this->assertEquals('kW', $telegram->unit_instantaneous_active_power_out_l1);
-        $this->assertEquals(0.0, $telegram->instantaneous_active_power_out_l2);
-        $this->assertEquals('kW', $telegram->unit_instantaneous_active_power_out_l2);
-        $this->assertEquals(0.0, $telegram->instantaneous_active_power_out_l3);
-        $this->assertEquals('kW', $telegram->unit_instantaneous_active_power_out_l3);
+        $this->assertEquals(0, $telegram->getInstantaneousCurrentL1()->getMeterReading());
+        $this->assertEquals('A', $telegram->getInstantaneousCurrentL1()->getUnit());
+        $this->assertEquals(3, $telegram->getInstantaneousCurrentL2()->getMeterReading());
+        $this->assertEquals('A', $telegram->getInstantaneousCurrentL2()->getUnit());
+        $this->assertEquals(1, $telegram->getInstantaneousCurrentL3()->getMeterReading());
+        $this->assertEquals('A', $telegram->getInstantaneousCurrentL3()->getUnit());
 
-        $this->assertEquals('', $telegram->message_code);
-        $this->assertEquals('', $telegram->message_text);
+        $this->assertEquals(0.040, $telegram->getInstantaneousActivePowerInL1()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getInstantaneousActivePowerInL1()->getUnit());
+        $this->assertEquals(0.217, $telegram->getInstantaneousActivePowerInL2()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getInstantaneousActivePowerInL2()->getUnit());
+        $this->assertEquals(0.149, $telegram->getInstantaneousActivePowerInL3()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getInstantaneousActivePowerInL3()->getUnit());
 
-        $this->assertEquals('A79E', $telegram->crc);
+        $this->assertEquals(0.0, $telegram->getInstantaneousActivePowerOutL1()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getInstantaneousActivePowerOutL1()->getUnit());
+        $this->assertEquals(0.0, $telegram->getInstantaneousActivePowerOutL2()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getInstantaneousActivePowerOutL2()->getUnit());
+        $this->assertEquals(0.0, $telegram->getInstantaneousActivePowerOutL3()->getMeterReading());
+        $this->assertEquals('kW', $telegram->getInstantaneousActivePowerOutL3()->getUnit());
+
+        $this->assertEquals('', $telegram->getMessageCode());
+        $this->assertEquals('', $telegram->getMessageText());
+
+        $this->assertEquals('A79E', $telegram->getCrc());
     }
 
     public function testChannelData()
     {
         $telegram = $this->parser->parse($this->getData());
-        $this->assertEquals(1, $telegram->channel1->id);
-        $this->assertEquals(3, $telegram->channel1->typeId);
-        $this->assertEquals('Gas', $telegram->channel1->typeDescription);
-        $this->assertEquals('20140622160000', $telegram->channel1->timestamp->format('YmdHis'));
-        $this->assertEquals(0003.800, $telegram->channel1->meterReading);
-        $this->assertEquals('m3', $telegram->channel1->unit);
-        $this->assertEquals(1, $telegram->channel1->valvePosition);
+        $this->assertEquals(1, $telegram->getChannel(1)->getId());
+        $this->assertEquals(3, $telegram->getChannel(1)->getTypeId());
+        $this->assertEquals('Gas', $telegram->getChannel(1)->getTypeDescription());
+        $this->assertEquals('20140622160000', $telegram->getChannel(1)->getTimestamp()->format('YmdHis'));
+        $this->assertEquals(0003.800, $telegram->getChannel(1)->getReadingValue()->getMeterReading());
+        $this->assertEquals('m3', $telegram->getChannel(1)->getReadingValue()->getUnit());
+        $this->assertEquals(1, $telegram->getChannel(1)->getValvePosition());
 
-        $this->assertNull($telegram->channel2);
-        $this->assertNull($telegram->channel3);
-        $this->assertNull($telegram->channel4);
+        $this->assertNull($telegram->getChannel(2));
+        $this->assertNull($telegram->getChannel(3));
+        $this->assertNull($telegram->getChannel(4));
     }
 
     public function testCrc()
     {
         $data = $this->getFixture('telegram_with_gas_meter2.txt');
         $telegram = $this->parser->parse($data);
-        $this->assertEquals('4D8E', $telegram->crc);
+        $this->assertEquals('4D8E', $telegram->getCrc());
     }
 
     protected function getData()
