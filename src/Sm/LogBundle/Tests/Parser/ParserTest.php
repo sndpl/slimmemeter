@@ -105,8 +105,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->getFixture('telegram_with_gas_meter2.txt');
         $telegram = $this->parser->parse($data);
-        $this->assertEquals('04F0', $telegram->crc);
-
+        $this->assertEquals('4D8E', $telegram->crc);
     }
 
     protected function getData()

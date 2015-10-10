@@ -58,7 +58,7 @@ class Telegram
     public $current_power_out = '';
     public $unit_current_power_in = '';
     public $unit_current_power_out = '';
-    public $current_treshold = '';
+    public $current_treshold = 0;
     public $unit_current_treshold = '';
     public $current_switch_position = 0;
     public $message_code;

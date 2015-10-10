@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Sm\LogBundle\Serial\Serial;
+use Sm\LogBundle\Crc\Crc16;
 
 /**
  * A command that runs constantly in the background, waiting for new queue
@@ -114,7 +115,7 @@ class FetchDataCommand extends ContainerAwareCommand
 
     /**
      * Check if the data contains a / and !
-     * @todo use the CRC code for it!
+     * Also validate the CRC code when available
      *
      * @param $data
      * @return bool
@@ -122,11 +123,24 @@ class FetchDataCommand extends ContainerAwareCommand
     protected function isDataValid($data)
     {
         if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
+            $pos = strrpos($data, '!');
+            $hash = substr($data, $pos, strlen($data) -1);
+            if ($hash != '' && strlen($hash) === 4) {
+                $crcData = str_replace("\n", "\r\n", substr($data, 0, strlen(trim($data))-4));
+                $crcHash = strtoupper(dechex(Crc16::hash($crcData)));
+                return $crcHash === $hash;
+            }
+
             return true;
         }
         return false;
     }
 
+    /**
+     * @param $logger
+     *
+     * @return \Sm\LogBundle\Serial\Serial
+     */
     protected function getSerialPort($logger)
     {
         $device = $this->getContainer()->getParameter('serial.device');

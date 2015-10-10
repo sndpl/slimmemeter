@@ -3,6 +3,7 @@ namespace Sm\LogBundle\Parser;
 
 use Sm\LogBundle\Dto\Telegram;
 use Sm\LogBundle\Dto\Channel;
+use Sm\LogBundle\Crc\Crc16;
 
 
 /**
@@ -355,12 +356,12 @@ class Parser
             #eg. !141B
             #CRC16 value calculated over the preceding characters in the data message (from “/” to “!” using the polynomial: x16+x15+x2+1).
             #the checksum is discarded
-            $this->telegram->crc = substr($data, 1, strlen($data) -1);
-            $crcData = substr($fullMsg, 1, strlen(trim($fullMsg))-6);
-            //print_r($crcData);
-            //$this->telegram->crc = dechex($this->crc16($crcData));
-            $this->telegram->complete = true;
-            //print "CRC Code found ! " . PHP_EOL;
+            $crc = substr($data, 1, strlen($data) -1);
+
+            $crcData = str_replace("\n", "\r\n", substr($fullMsg, 0, strlen(trim($fullMsg))-4));
+
+            $this->telegram->crc = strtoupper(dechex(Crc16::hash($crcData)));
+            $this->telegram->complete = ($crc == $this->telegram->crc);
         } else {
             print 'Unknown line: ' . $data . PHP_EOL;
             print substr($data, 4,6) . PHP_EOL;
@@ -372,26 +373,4 @@ class Parser
         $channelId = intval(substr($data, 2,1));
         return $channelId;
     }
-
-
-    function crc16($string, $crc = 0)
-    {
-        for ($x = 0; $x < strlen($string); $x++)
-        {
-            $crc = $crc ^ ord($string[$x]);
-            for ($y = 0; $y < 8; $y++)
-            {
-                if (($crc & 0x0001) == 0x0001)
-                {
-                    $crc = ($crc >> 1) ^ 0xA001;
-                }
-                else
-                {
-                    $crc = $crc >> 1;
-                }
-            }
-        }
-        return $crc;
-    }
-
 }
