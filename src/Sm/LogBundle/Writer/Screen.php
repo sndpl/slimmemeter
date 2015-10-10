@@ -52,7 +52,7 @@ class Screen
         $this->output->writeln('96.14. 0 - Current trariff: ' . $data->getCurrentTariff());
         $this->output->writeln(' 1. 7. 0 - Current power in (+P): ' . number_format($data->getCurrentPowerIn()->getMeterReading(), 3) . ' ' . $data->getCurrentPowerIn()->getUnit());
         $this->output->writeln(' 2. 7. 0 - Current power out (-P): ' . number_format($data->getCurrentPowerOut()->getMeterReading(), 3) . ' ' . $data->getCurrentPowerOut()->getUnit());
-        $this->output->writeln('17. 0. 0 - Current threshold: ' . number_format($data->getCurrentTreshold()->getUnit(), 3) . ' ' . $data->getCurrentTreshold()->getUnit());
+        $this->output->writeln('17. 0. 0 - Current threshold: ' . number_format($data->getCurrentTreshold()->getMeterReading(), 3) . ' ' . $data->getCurrentTreshold()->getUnit());
         $this->output->writeln('96. 3.10 - Switch position: ' . $data->getCurrentSwitchPosition());
         $this->output->writeln('96. 7.21 - Number of powerfailures: ' . $data->getPowerFailures());
         $this->output->writeln('96. 7. 9 - Number of long powerfailures: ' . $data->getLongPowerFailures());
