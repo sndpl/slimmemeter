@@ -122,12 +122,15 @@ class FetchDataCommand extends ContainerAwareCommand
      */
     protected function isDataValid($data)
     {
+        $logger = $this->getContainer()->get('logger');
         if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
+            $logger->info("Telegram is complete");
             $pos = strrpos($data, '!');
             $hash = substr($data, $pos, strlen($data) -1);
             if ($hash != '' && strlen($hash) === 4) {
                 $crcData = str_replace("\n", "\r\n", substr($data, 0, strlen(trim($data))-4));
                 $crcHash = strtoupper(dechex(Crc16::hash($crcData)));
+                $logger->info('Telegram has CRC: ' . $hash . ' | Calculated hash: ' . $crcHash);
                 return $crcHash === $hash;
             }
 
