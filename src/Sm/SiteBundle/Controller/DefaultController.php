@@ -23,6 +23,10 @@ class DefaultController extends Controller
 
         return array(
             'telegram' => $telegram,
+            'channel_one_installed' => is_null($telegram->getChannel(1))?false:true,
+            'channel_two_installed' => is_null($telegram->getChannel(2))?false:true,
+            'channel_three_installed' => is_null($telegram->getChannel(3))?false:true,
+            'channel_four_installed' => is_null($telegram->getChannel(4))?false:true,
             'weather' => $weather,
         );
     }
@@ -43,7 +47,7 @@ class DefaultController extends Controller
     public function channelOneAction()
     {
         $telegram = $this->getLastTelegram();
-        return array('installed' => is_null($telegram->channel1)?false:true);
+        return array('installed' => is_null($telegram->getChannel(1))?false:true);
     }
     /**
      * @Route("/channel-two")
@@ -52,7 +56,7 @@ class DefaultController extends Controller
     public function channelTwoAction()
     {
         $telegram = $this->getLastTelegram();
-        return array('installed' => is_null($telegram->channel2)?false:true);
+        return array('installed' => is_null($telegram->getChannel(2))?false:true);
     }
     /**
      * @Route("/channel-three")
@@ -61,7 +65,7 @@ class DefaultController extends Controller
     public function channelThreeAction()
     {
         $telegram = $this->getLastTelegram();
-        return array('installed' => is_null($telegram->channel3)?false:true);
+        return array('installed' => is_null($telegram->getChannel(3))?false:true);
     }
     /**
      * @Route("/channel-four")
@@ -70,7 +74,7 @@ class DefaultController extends Controller
     public function channelFourAction()
     {
         $telegram = $this->getLastTelegram();
-        return array('installed' => is_null($telegram->channel4)?false:true);
+        return array('installed' => is_null($telegram->getChannel(4))?false:true);
     }
 
     /**
