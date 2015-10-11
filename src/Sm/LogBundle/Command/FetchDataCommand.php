@@ -126,7 +126,7 @@ class FetchDataCommand extends ContainerAwareCommand
         if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
             $logger->info("Telegram is complete (contains / and !)");
             $pos = strrpos($data, '!');
-            $hash = substr($data, $pos, strlen($data) -1);
+            $hash = trim(substr($data, $pos, strlen($data) -1));
             $logger->info("Founded hash: " . $hash . ' | Length: ' . strlen($hash));
             if ($hash != '' && strlen($hash) === 4) {
                 $crcData = substr($data, 0, strlen(trim($data))-4);

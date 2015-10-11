@@ -4,6 +4,7 @@ namespace Sm\LogBundle\Parser;
 use Sm\LogBundle\Dto\Telegram;
 use Sm\LogBundle\Dto\Channel;
 use Sm\LogBundle\Dto\ReadingValue;
+use Psr\Log\LoggerInterface;
 
 
 /**
@@ -52,8 +53,17 @@ use Sm\LogBundle\Dto\ReadingValue;
  */
 class Parser
 {
+    /**
+     * @var Telegram
+     */
     protected $telegram;
+    /**
+     * @var Channel
+     */
     protected $channel;
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
     public function __construct($logger)
@@ -74,6 +84,7 @@ class Parser
 
     public function parse($data)
     {
+        $this->logger->info('Start parsing data to Telegram');
         $this->init();
         // Loop through data
         $lines = explode("\r\n", $data);
@@ -105,6 +116,7 @@ class Parser
                 #Check if meter clock is running
                 $timestamp = '20' . substr($data, 10, 12);
                 $this->telegram->setTimestamp(new \DateTime($timestamp));
+                $this->logger->info("Found timestamp: " . $this->telegram->getTimestamp()->format("YmdHis") . " | Stamp: " . $this->telegram->getTimestamp()->format('U'));
             } else {
                 $this->logger->warning("warning: invalid P1-telegram date/time value '".substr($data, 10, 12)."', system date/time used instead: '" . $this->telegram->getTimestamp()->format('YmdHis') . "'");
             }
