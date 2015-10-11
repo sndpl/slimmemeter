@@ -54,23 +54,29 @@ class Parser
 {
     protected $telegram;
     protected $channel;
+    protected $logger;
 
-    public function __construct()
+    public function __construct($logger)
+    {
+        $this->logger = $logger;
+    }
+
+    protected function init()
     {
         $this->telegram = new Telegram();
         $this->channel = [
-            1 => new Channel(1),
-            2 => new Channel(2),
-            3 => new Channel(3),
-            4 => new Channel(4)
+          1 => new Channel(1),
+          2 => new Channel(2),
+          3 => new Channel(3),
+          4 => new Channel(4)
         ];
     }
 
     public function parse($data)
     {
+        $this->init();
         // Loop through data
-        $this->telegram->setTimestamp(new \DateTime());
-        $lines = explode("\n", $data);
+        $lines = explode("\r\n", $data);
         foreach ($lines as $line) {
             $this->parseLine($line, $data);
         }
@@ -100,7 +106,7 @@ class Parser
                 $timestamp = '20' . substr($data, 10, 12);
                 $this->telegram->setTimestamp(new \DateTime($timestamp));
             } else {
-                printf("warning: invalid P1-telegram date/time value '%s', system date/time used instead: '%s'", substr($data, 10, 12), $this->telegram->getTimestamp()->format('ymdHis'));
+                $this->logger->warning("warning: invalid P1-telegram date/time value '".substr($data, 10, 12)."', system date/time used instead: '" . $this->telegram->getTimestamp()->format('YmdHis') . "'");
             }
         } elseif (substr($data, 4, 5) === '0.2.8') {
             #DSMR Version (DSMR V4)
@@ -339,8 +345,7 @@ class Parser
             $this->telegram->setCrc($crc);
             $this->telegram->setComplete();
         } else {
-            print 'Unknown line: ' . $data . PHP_EOL;
-            print substr($data, 4,6) . PHP_EOL;
+            $this->logger->warning("Unknown Line: " . $data);
         }
     }
 

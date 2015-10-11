@@ -52,7 +52,7 @@ class FetchDataCommand extends ContainerAwareCommand
         pcntl_signal(SIGTERM, $terminationHandler);
         pcntl_signal(SIGINT, $terminationHandler);
 
-        $parser = new Parser();
+        $parser = new Parser($logger);
         $writerFactory = new WriterFactory();
         $writer = $writerFactory->create($outputMode, $output, $logger);
 
@@ -124,11 +124,12 @@ class FetchDataCommand extends ContainerAwareCommand
     {
         $logger = $this->getContainer()->get('logger');
         if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
-            $logger->info("Telegram is complete");
+            $logger->info("Telegram is complete (contains / and !)");
             $pos = strrpos($data, '!');
             $hash = substr($data, $pos, strlen($data) -1);
+            $logger->info("Founded hash: " . $hash . ' | Length: ' . strlen($hash));
             if ($hash != '' && strlen($hash) === 4) {
-                $crcData = str_replace("\n", "\r\n", substr($data, 0, strlen(trim($data))-4));
+                $crcData = substr($data, 0, strlen(trim($data))-4);
                 $crcHash = strtoupper(dechex(Crc16::hash($crcData)));
                 $logger->info('Telegram has CRC: ' . $hash . ' | Calculated hash: ' . $crcHash);
                 if ($crcHash === $hash) {
