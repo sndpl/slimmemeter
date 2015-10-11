@@ -2,6 +2,7 @@
 
 namespace Sm\LogBundle\Writer\Rrd;
 
+use Sm\LogBundle\Dto\ReadingValue;
 use Sm\LogBundle\Dto\Telegram;
 
 /**
@@ -59,12 +60,12 @@ class CurrentPower extends AbstractRrdWriter
 
         if (intval($telegram->getCurrentTariff()) == 2) {
             // Normal
-            $powerInT2 = $telegram->getCurrentPowerIn()->getMeterReading()*1000;
-            $powerOutT2 = $telegram->getCurrentPowerOut()->getMeterReading()*1000;
+            $powerInT2 = $this->getReadingValue($telegram->getCurrentPowerIn());
+            $powerOutT2 = $this->getReadingValue($telegram->getCurrentPowerOut());
         } else {
             // Low
-            $powerInT1 = $telegram->getCurrentPowerIn()->getMeterReading()*1000;
-            $powerOutT1 = $telegram->getCurrentPowerOut()->getMeterReading()*1000;
+            $powerInT1 = $this->getReadingValue($telegram->getCurrentPowerIn());
+            $powerOutT1 = $this->getReadingValue($telegram->getCurrentPowerOut());
         }
         $this->logger->debug('Add Current Power data: In T1: ' . $powerInT1 . 'W | In T2: ' . $powerInT2 . 'W | Out T1 ' .$powerOutT1 . 'W | Out T2' . $powerOutT2 .'W' );
 

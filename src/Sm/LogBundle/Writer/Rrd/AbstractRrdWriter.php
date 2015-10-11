@@ -4,6 +4,7 @@ namespace Sm\LogBundle\Writer\Rrd;
 
 use Psr\Log\LoggerInterface;
 use Sm\LogBundle\Dto\Telegram;
+use Sm\LogBundle\Dto\ReadingValue;
 
 
 abstract class AbstractRrdWriter
@@ -87,5 +88,18 @@ abstract class AbstractRrdWriter
     {
         $dir = __DIR__ . '/../../../../../data/';
         return $dir . $this->dbFilename . '.rrd';
+    }
+
+    /**
+     * @param ReadingValue $readingValue
+     *
+     * @return float|int
+     */
+    protected function getReadingValue($readingValue)
+    {
+        if ($readingValue instanceof ReadingValue) {
+            return $readingValue->getMeterReading() * 1000;
+        }
+        return 0;
     }
 }

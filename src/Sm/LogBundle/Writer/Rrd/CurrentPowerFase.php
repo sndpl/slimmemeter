@@ -39,12 +39,12 @@ class CurrentPowerFase extends AbstractRrdWriter
         $this->logger->debug('Add Current Power Fase data:');
         return [
             $telegram->getTimestamp()->format('U') . ':' .
-            ($telegram->getInstantaneousActivePowerInL1()*1000) . ':' .
-            ($telegram->getInstantaneousActivePowerInL2()*1000) . ':' .
-            ($telegram->getInstantaneousActivePowerInL3()*1000) . ':' .
-            ($telegram->getInstantaneousActivePowerOutL1()*1000) . ':' .
-            ($telegram->getInstantaneousActivePowerOutL2()*1000) . ':' .
-            ($telegram->getInstantaneousActivePowerOutL3()*1000)
+            $this->getReadingValue($telegram->getInstantaneousActivePowerInL1()) . ':' .
+            $this->getReadingValue($telegram->getInstantaneousActivePowerInL2()) . ':' .
+            $this->getReadingValue($telegram->getInstantaneousActivePowerInL3()) . ':' .
+            $this->getReadingValue($telegram->getInstantaneousActivePowerOutL1()) . ':' .
+            $this->getReadingValue($telegram->getInstantaneousActivePowerOutL2()) . ':' .
+            $this->getReadingValue($telegram->getInstantaneousActivePowerOutL3())
         ];
     }
 }
