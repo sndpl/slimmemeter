@@ -67,7 +67,7 @@ class CurrentPower extends AbstractRrdWriter
             $powerInT1 = $this->getReadingValue($telegram->getCurrentPowerIn());
             $powerOutT1 = $this->getReadingValue($telegram->getCurrentPowerOut());
         }
-        $this->logger->debug('Add Current Power data: In T1: ' . $powerInT1 . 'W | In T2: ' . $powerInT2 . 'W | Out T1 ' .$powerOutT1 . 'W | Out T2' . $powerOutT2 .'W' );
+        $this->logger->debug('Add Current Power data ('.$telegram->getTimestamp()->format('U').'): In T1: ' . $powerInT1 . 'W | In T2: ' . $powerInT2 . 'W | Out T1 ' .$powerOutT1 . 'W | Out T2' . $powerOutT2 .'W' );
 
         return [
             $telegram->getTimestamp()->format('U') . ':' .
