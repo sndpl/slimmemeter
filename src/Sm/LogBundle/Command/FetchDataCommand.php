@@ -77,7 +77,9 @@ class FetchDataCommand extends ContainerAwareCommand
                     $data .= $read;
                     $logger->info('Received data: ' . $data);
                     if ($this->isDataValid($data)) {
-                        $telegram = $parser->parse($read, $data);
+                        $telegram = $parser->parse($data);
+                    } elseif (substr($data, -3) != ")\r\n")  {
+                        $data = rtrim($data, "\r\n");
                     }
                     if ($telegram instanceof Telegram && $telegram->isComplete()) {
                         $logger->info('Send telegram to writer');
@@ -126,11 +128,11 @@ class FetchDataCommand extends ContainerAwareCommand
         if (strpos($data, '/') !== false && strpos($data, '!') !== false) {
             $logger->info("Telegram is complete (contains / and !)");
             $pos = strrpos($data, '!');
-            $hash = trim(substr($data, $pos, strlen($data) -1));
+            $hash = trim(substr($data, $pos+1, strlen($data) -1));
             $logger->info("Founded hash: " . $hash . ' | Length: ' . strlen($hash));
             if ($hash != '' && strlen($hash) === 4) {
                 $crcData = substr($data, 0, strlen(trim($data))-4);
-                $crcHash = strtoupper(dechex(Crc16::hash($crcData)));
+                $crcHash = str_pad(strtoupper(dechex(Crc16::hash($crcData))), 4, "0", STR_PAD_LEFT);
                 $logger->info('Telegram has CRC: ' . $hash . ' | Calculated hash: ' . $crcHash);
                 if ($crcHash === $hash) {
                     return true;

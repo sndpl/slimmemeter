@@ -85,6 +85,7 @@ class Parser
     public function parse($data)
     {
         $this->logger->info('Start parsing data to Telegram');
+        $this->logger->debug(str_replace(["\n", "\r"], ["\\n", "\\r"], $data));
         $this->init();
         // Loop through data
         $lines = explode("\r\n", $data);
@@ -101,6 +102,7 @@ class Parser
 
     protected function parseLine($data, $fullMsg)
     {
+        $this->logger->debug('Parse line: |' . $data . '|');
         if (substr($data, 0, 1) === '/') {
             #Header information
             #eg. /KMP5 KA6U001511209910 (Kamstrup Enexis)
