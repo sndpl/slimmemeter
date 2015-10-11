@@ -7,39 +7,39 @@
 <table class="table table-striped">
     <tr><td>P1 telegram received on</td><td>{{ telegram.timestamp|date('Y-m-d H:i:s') }}</td></tr>
     <tr><td>Meter supplier</td><td>
-            {% if telegram.meter_supplier == 'KMP' %}
+            {% if telegram.meterSupplier == 'KMP' %}
             Kamstrup
-            {% elseif telegram.meter_supplier == 'ISk' %}
+            {% elseif telegram.meterSupplier == 'ISk' %}
             IskraEmeco
-            {% elseif telegram.meter_supplier == 'XMX' %}
+            {% elseif telegram.meterSupplier == 'XMX' %}
                 Xemex
-            {% elseif telegram.meter_supplier == 'KFM' %}
+            {% elseif telegram.meterSupplier == 'KFM' %}
                 Kaifa
             {% else %}
-                Unknown supplier: {{ telegram.meter_supplier }}
+                Unknown supplier: {{ telegram.meterSupplier }}
             {% endif %}
     </td></tr>
     <tr><td>Meter information</td><td>{{ telegram.header }}</td></tr>
-    <tr><td>DSMR versie</td><td>{{ telegram.dsmr_version }}</td></tr>
-    <tr><td>Meter number electricity</td><td>{{ telegram.equipment_id }}</td></tr>
-    <tr><td>Meter reading electricity in (T1)</td><td>{{ telegram.meterreading_in_1 }} {{ telegram.unit_meterreading_in_1 }}</td></tr>
-    <tr><td>Meter reading electricity in (T2)</td><td>{{ telegram.meterreading_out_1 }} {{ telegram.unit_meterreading_out_1 }}</td></tr>
-    <tr><td>Meter reading electricity out (T1)</td><td>{{ telegram.meterreading_in_2 }} {{ telegram.unit_meterreading_in_2 }}</td></tr>
-    <tr><td>Meter reading electricity out (T2)</td><td>{{ telegram.meterreading_out_2 }} {{ telegram.unit_meterreading_out_2 }}</td></tr>
-    <tr><td>Current tariff</td><td>{{ telegram.current_tariff }}</td></tr>
+    <tr><td>DSMR versie</td><td>{{ telegram.dsmrVersion }}</td></tr>
+    <tr><td>Meter number electricity</td><td>{{ telegram.equipmentId }}</td></tr>
+    <tr><td>Meter reading electricity in (T1)</td><td>{{ telegram.meterreadingIn1.meterReading }} {{ telegram.meterreadingIn1.unit }}</td></tr>
+    <tr><td>Meter reading electricity in (T2)</td><td>{{ telegram.meterreadingOut1.meterReading }} {{ telegram.meterreadingOut1.unit }}</td></tr>
+    <tr><td>Meter reading electricity out (T1)</td><td>{{ telegram.meterreadingIn2.meterReading }} {{ telegram.meterreadingIn2.unit }}</td></tr>
+    <tr><td>Meter reading electricity out (T2)</td><td>{{ telegram.meterreadingOut2.meterReading }} {{ telegram.meterreadingOut2.unit }}</td></tr>
+    <tr><td>Current tariff</td><td>{{ telegram.currentTariff }}</td></tr>
     <tr><td>Current power in (+P)</td><td>{{ telegram.current_power_in }} {{ telegram.unit_current_power_in }}</td></tr>
     <tr><td>Current power out (-P)</td><td>{{ telegram.current_power_out }} {{ telegram.unit_current_power_out }}</td></tr>
     <tr><td>Current threshold</td><td>{{ telegram.current_treshold }} {{ telegram.unit_current_treshold }}</td></tr>
-    <tr><td>Switch position</td><td>{{ telegram.current_switch_position }}</td></tr>
-    <tr><td>Number of power failures</td><td>{{ telegram.powerfailures }}</td></tr>
-    <tr><td>Number of long power failures</td><td>{{ telegram.long_powerfailures }}</td></tr>
-    <tr><td>Long power failures log</td><td>{{ telegram.long_powerfailures_log }}</td></tr>
-    <tr><td>Short voltage sags in fase 1</td><td>{{ telegram.voltage_sags_l1 }}</td></tr>
-    <tr><td>Short voltage sags in fase 2</td><td>{{ telegram.voltage_sags_l2 }}</td></tr>
-    <tr><td>Short voltage sags in fase 3</td><td>{{ telegram.voltage_sags_l3 }}</td></tr>
-    <tr><td>Short voltage swells in fase 1</td><td>{{ telegram.voltage_swells_l1 }}</td></tr>
-    <tr><td>Short voltage swells in fase 2</td><td>{{ telegram.voltage_swells_l2 }}</td></tr>
-    <tr><td>Short voltage swells in fase 3</td><td>{{ telegram.voltage_swells_l3 }}</td></tr>
+    <tr><td>Switch position</td><td>{{ telegram.currentSwitchPosition }}</td></tr>
+    <tr><td>Number of power failures</td><td>{{ telegram.powerFailures }}</td></tr>
+    <tr><td>Number of long power failures</td><td>{{ telegram.longPowerFailures }}</td></tr>
+    <tr><td>Long power failures log</td><td>{{ telegram.longPowerFailuresLog }}</td></tr>
+    <tr><td>Short voltage sags in fase 1</td><td>{{ telegram.voltageSagsL1 }}</td></tr>
+    <tr><td>Short voltage sags in fase 2</td><td>{{ telegram.voltageSagsL2 }}</td></tr>
+    <tr><td>Short voltage sags in fase 3</td><td>{{ telegram.voltageSagsL3 }}</td></tr>
+    <tr><td>Short voltage swells in fase 1</td><td>{{ telegram.voltageSwellsL1 }}</td></tr>
+    <tr><td>Short voltage swells in fase 2</td><td>{{ telegram.voltageSwellsL2 }}</td></tr>
+    <tr><td>Short voltage swells in fase 3</td><td>{{ telegram.voltageSwellsL3 }}</td></tr>
     <tr><td>Current instantaneous in fase 1</td><td>{{ telegram.instantaneous_current_l1 }} {{ telegram.unit_instantaneous_current_l1 }}</td></tr>
     <tr><td>Current instantaneous in fase 2</td><td>{{ telegram.instantaneous_current_l2 }} {{ telegram.unit_instantaneous_current_l2 }}</td></tr>
     <tr><td>Current instantaneous in fase 3</td><td>{{ telegram.instantaneous_current_l3 }} {{ telegram.unit_instantaneous_current_l3 }}</td></tr>
@@ -49,8 +49,8 @@
     <tr><td>Current instantaneous active power (-P) out fase 1</td><td>{{ telegram.instantaneous_active_power_out_l1 }} {{ telegram.unit_instantaneous_active_power_out_l1 }}</td></tr>
     <tr><td>Current instantaneous active power (-P) out fase 2</td><td>{{ telegram.instantaneous_active_power_out_l2 }} {{ telegram.unit_instantaneous_active_power_out_l2 }}</td></tr>
     <tr><td>Current instantaneous active power (-P) out fase 3</td><td>{{ telegram.instantaneous_active_power_out_l3 }} {{ telegram.unit_instantaneous_active_power_out_l3 }}</td></tr>
-    <tr><td>Message code</td><td>{{ telegram.message_code }}</td></tr>
-    <tr><td>Message text</td><td>{{ telegram.message_text }}</td></tr>
+    <tr><td>Message code</td><td>{{ telegram.messageCode }}</td></tr>
+    <tr><td>Message text</td><td>{{ telegram.messageText }}</td></tr>
 </table>
 
     <h4>Channel 1</h4>
