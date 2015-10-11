@@ -22,7 +22,7 @@ class FetchWeatherCommand extends ContainerAwareCommand
     {
         $logger = $this->getContainer()->get('logger');
 
-        $openWeatherMap =$this->getContainer()->get('endroid.openweathermap');
+        $openWeatherMap =$this->getContainer()->get('endroid.openweathermap.client');
 
         // Retrieve the current weather for Vlissingen
         $weather = $openWeatherMap->getWeather('Vlissingen,nl');
